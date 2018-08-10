@@ -1,0 +1,10 @@
+local:
+  db_name: vk
+
+prod:
+  hosts:
+    - 139.162.166.28
+  user: vkusnyan
+  git_branch: master
+  db_name: vkusnyan
+  crontab_file: crontab.txt
