@@ -1,0 +1,104 @@
+FROM python:2.7
+
+RUN apt-get update
+RUN apt-get install -y python-pip libncurses5-dev
+
+# Instead of using requirements.txt
+RUN pip install \
+    amqp==1.4.9 \
+    anyjson==0.3.3 \
+    appdirs==1.4.3 \
+    backports.shutil-get-terminal-size==1.0.0 \
+    billiard==3.3.0.23 \
+    celery==3.1.24 \
+    contextlib2==0.5.3 \
+    cssutils==1.0.1 \
+    decorator==4.0.10 \
+    Django==1.9 \
+    django-admin-sortable==2.0.21 \
+    django-admin-sortable2==0.6.10 \
+    django-ajax-selects==1.5.2 \
+    -e git+https://github.com/miracle2k/django-assets.git@50250e7e811700f8a90392ac7e727dbb4ea356a4#egg=django_assets \
+    django-celery==3.1.17 \
+    django-celery-with-redis==3.0 \
+    django-codemirror2==0.2 \
+    django-compat==1.0.12 \
+    django-extensions==1.7.7 \
+    django-filter==1.0.1 \
+    django-hijack==2.1.1 \
+    django-jinja==2.1.3 \
+    django-nose==1.4.4 \
+    django-sortedm2m==1.3.2 \
+    djangorestframework==3.5.4 \
+    ecdsa==0.13 \
+    -e git+https://github.com/highcat/emailer.git@970fc5ebed47dabe9a0ed3d6881146059f5aef4d#egg=emailer \
+    Fabric==1.11.1 \
+    google-api-python-client==1.6.2 \
+    gunicorn==19.6.0 \
+    httplib2==0.10.3 \
+    ipython==4.2.0 \
+    ipython-genutils==0.1.0 \
+    Jinja2==2.8 \
+    jsmin==2.2.1 \
+    kombu==3.0.37 \
+    -e git+https://github.com/highcat/web_tasks.git@a9a39163071b2e869f44b4063087fe9e7546d434#egg=locked_pidfile \
+    lorem-ipsum-generator==0.3 \
+    Markdown==2.6.8 \
+    MarkupSafe==0.23 \
+    nose==1.3.7 \
+    oauth2client==4.0.0 \
+    oauthlib==1.1.2 \
+    packaging==16.8 \
+    paramiko==1.17.0 \
+    pathlib2==2.1.0 \
+    pexpect==4.1.0 \
+    pickleshare==0.7.2 \
+    Pillow==3.2.0 \
+    psycopg2==2.6.1 \
+    ptyprocess==0.5.1 \
+    pyasn1==0.2.3 \
+    pyasn1-modules==0.0.8 \
+    pycrypto==2.6.1 \
+    PyJWT==1.4.0 \
+    pyparsing==2.2.0 \
+    python-dateutil==2.5.3 \
+    python-openid==2.2.5 \
+    python-social-auth==0.2.1 \
+    pytz==2016.4 \
+    PyYAML==3.11 \
+    raven==5.20.0 \
+    redis==2.10.5 \
+    requests==2.10.0 \
+    requests-oauthlib==0.6.1 \
+    rsa==3.4.2 \
+    simplegeneric==0.8.1 \
+    six==1.10.0 \
+    telepot==12.0 \
+    traitlets==4.2.1 \
+    transliterate==1.8.1 \
+    uritemplate==3.0.0 \
+    urllib3==1.21.1 \
+    vine==1.1.3 \
+    webassets==0.11.1 \
+    xlrd==1.0.0 \
+    xlutils==2.0.0 \
+    xlwt==1.2.0
+
+
+WORKDIR /app
+COPY ./ /app
+
+# PROD-specific settings
+COPY ./conf/localsettings_prod.py /app/localsettings.py
+COPY ./conf/gunicorn_config.py /app/gunicorn_config.py
+# Add crontab file in the cron directory
+ADD ./conf/crontab.txt /etc/cron.d/web-cron
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/web-cron
+RUN mkdir -p /app/var/log
+RUN mkdir -p /app/var/run
+
+EXPOSE 8080
+
+# CMD ["/app/manage.py", "collectstatic", "--noinput", "&&", "gunicorn", "vk.wsgi:application", "-c", "/app/gunicorn_config.py"]
+CMD ["/app/manage.py", "runserver"]

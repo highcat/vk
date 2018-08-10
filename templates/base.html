@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>{% block title %}Вкуснян - сладости для челленджей и товары из 90-х.{% endblock %}</title>
+	<meta name="description" content="{% block description %}Заказ без регистрации. Покупка товаров в 2 клика. Доставка в день заказа. Интернет-магазин Вкуснян - товары из 90-х и сладости для челленджей. Заказ по телефону: +7 (499) 322-92-49, +7 (917) 558-33-93 Виктория{% endblock %}">
+	<meta name="keywords" content="{% block keywords %} Вкуснян, Vkusnyan, Drecyzy, Млгытнфт, Vkusnyan.ru, вкуснян.ру, интернет магазин Вкуснян, вкуснян точка ру, интернет магазин Вкуснян, Вкусняшки, Vkusnyaski, вкусняшки купить, няшки купить, интернет-магазин, товары для челледжа, набор из 90-х, товары из 90-х, товары 90-х, набор назад в 90-е, популярные товары, хиты, сладости купить, противные вкусы купить, ужасные вкусы купить, набор из 90-х мужская версия, набор из 90-х женская версия, Jelly Belly, Джелли Белли, Бин Бузлд, Bean Boozled, Bean Boozled игра, Бин Бузлд игра купить, Гарри Поттер Берти Боттс Бинс, Harry Potter Bertie Bott's Beans, Bertie Bott's, Love is купить, Любовь это купить, Love is все вкусы купить, Toxic Waste, Toxic Waste Жёлтый, Toxic Waste классический, Toxic Waste для челленжей{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, user-scalable=no">
+    <link rel="stylesheet" href="{{ 'bootstrap-3.3.7/css/bootstrap.min.css'|version_url }}" type="text/css" charset="utf-8" /> 
+	<link rel="stylesheet" href="{{ 'css/style.css'|version_url }}" type="text/css" charset="utf-8" /> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	
+	<!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#fac517">
+	<!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#fac517">
+	<!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#fac517">
+</head>
+<body>
+    {% include "_profile_mark.html" %}
+<!-- /{% include "_ban_closed.html" %} -->
+
+	<div id="background">
+		<div id="page">
+          {% with header_id=(header_id or 'header02') %}
+            {% include "_header.html" %}
+          {% endwith %}
+
+          {% block content %}
+            *** content will be here ***
+          {% endblock %}
+
+          {% include "_footer.html" %}
+          {% if settings.PROFILE == 'PROD' %}
+            {% include "_counters.html" %}
+          {% endif %}
+		</div> <!-- /#page -->
+	</div> <!-- /#background -->
+
+
+    <a class="up-button" onclick="$(window).scrollTop(0);"></a>
+    <script>
+      var USER_LOGGED_IN = {{ 'true' if user.is_authenticated() else 'false' }};
+      var USER_IS_ADMIN = {{ 'true' if user.is_staff else 'false' }};
+      var CSRF = '{{ csrf_token }}';
+      var JS_DEBUG = {% if debug %}true{% else %}false{% endif %};
+    </script>
+    <script src="{{ 'js/log.js'|version_url }}"></script>
+    <script src="{{ 'js/underscore-min.js'|version_url }}"></script>
+    <script src="{{ 'js/jquery-1.11.1.min.js'|version_url }}"></script>
+    <script src="{{ 'bootstrap-3.3.7/js/bootstrap.min.js'|version_url }}"></script>
+
+    <script src="{{ 'js/vendor/moment.2.19.2.min.js'|version_url }}"></script>
+    <script src="{{ 'js/vendor/moment.ru.min.js'|version_url }}"></script>
+    <script src="{{ 'js/vendor/bootstrap-datetimepicker.4.17.47__patched.js'|version_url }}"></script>
+    
+    <link rel="stylesheet" href="{{ 'css/vendor/bootstrap-datetimepicker.min.css'|version_url }}" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="{{ 'css/calendar.css'|version_url }}" type="text/css" charset="utf-8" /> 
+    
+
+    <script src="{{ 'js/backbone.marionette/json2.js'|version_url }}"></script>
+    <script src="{{ 'js/backbone.marionette/underscore.js'|version_url }}"></script>
+    <script src="{{ 'js/backbone.marionette/backbone.js'|version_url }}"></script>
+    <script src="{{ 'js/backbone.marionette/backbone.radio.js'|version_url }}"></script>
+    <script src="{{ 'js/backbone.marionette/backbone.marionette.min.js'|version_url }}"></script>
+
+    <script src="{{ 'js/base.js'|version_url }}"></script>
+    <script src="{{ 'js/common.js'|version_url }}"></script>
+    {% include "_cart.html" %}
+    <script src="{{ 'js/cart2.js'|version_url }}"></script>
+    <script src="{{ 'js/shop.js'|version_url }}"></script>
+    <script src="{{ 'js/opCalendar.js'|version_url }}"></script>    
+
+    {% include "_call_button.html" %}
+    {% include "_other_contact_buttons.html" %}
+    {% include "_op_calendar.html" %}
+</body>
+</html>

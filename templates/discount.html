@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="contents_menu" style="background: url() repeat-x left bottom;">
+  <div id="section">
+    <ul class="items">
+      {% for product in items %}
+        {% include '_product_item.html' %}
+      {% endfor %}
+    </ul>
+  </div>
+</div> <!-- /#contents -->
+{% endblock %}

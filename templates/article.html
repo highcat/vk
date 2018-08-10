@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+{% block description %}{{ article.page_description or super() }}{% endblock %}
+{% block keywords %}{{ article.page_keywords or super() }}{% endblock %}
+
+{% block content %}
+<div id="contents">
+  <div id="article-page">
+    <article class="article-content clearfix">
+      <h1>{{ article.title }}</h1>
+      {% if article.image %}
+        <img class="main-image" src="{{ article.image|version_url }}" />
+      {% endif %}
+      {{ article.html|safe }}
+    </article>
+  </div>
+</div>
+{% endblock %}

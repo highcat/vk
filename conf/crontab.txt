@@ -1,0 +1,19 @@
+# DON'T EDIT CRONTAB BY HAND ON SERVER, IT'S DEPLOYED AUTOMATICALLY FROM GIT
+# This is crontab file for PROD tier.
+
+# Put admin's email here
+MAILTO="highcatland@gmail.com"
+PATH="/home/arixez/bin:/home/arixez/ve/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+
+# m h  dom mon dow   command
+    
+# Services autostart/autorestart
+@reboot  ~/supervisord.sh
+* * * * *  ~/supervisord.sh
+
+# Retry orders, which has failed to sync normally
+* * * * *  ~/in_ve python ~/vk/manage.py retry-process-orders >> /dev/null
+* * * * *  ~/in_ve python ~/vk/manage.py sync-with-retailcrm >> /dev/null
+
+# update subscribers, etc
+* * * * *  ~/in_ve python ~/vk/manage.py telegram-bot-update >> /dev/null

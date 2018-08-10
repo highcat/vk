@@ -1,0 +1,44 @@
+.datetime-picker {
+    font-size: 24px;
+}
+
+.datetime-picker .datepicker .table-condensed > tbody > tr > td {
+    padding: 20px 15px;
+}
+
+.datetime-picker td.day.active {
+    background-color: lightgreen;
+}
+.datetime-picker td.day.today {
+    background-color: lightgreen;
+    color: black;
+}
+.datetime-picker td.day.today:before {
+    content: 'сегодня';
+    display: inline-block;
+    font-size: 12px;
+    border-width: 0;
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    left: 4px;
+    top: 4px;
+    border: 1px solid black !important;
+    border-radius: 5px;
+    vertical-align: bottom;
+}
+.datetime-picker td.day { /* probably open */
+    background-color: lightgreen;
+    border-radius: 8px
+}
+.datetime-picker td.day.mark-open {
+    background-color: green;
+}
+.datetime-picker td.day.mark-closed {
+    background-color: red;
+}
+
+.datetime-picker td.day.old,
+.datetime-picker td.day.new {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.5);
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Вкуснян</title>
+    <link rel="stylesheet" href="{{ 'bootstrap-3.3.7/css/bootstrap.min.css'|version_url }}" type="text/css" charset="utf-8" /> 
+	<link rel="stylesheet" href="{{ 'css/style.css'|version_url }}" type="text/css" charset="utf-8" /> 
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <h1>Синхронизация товаров</h1>
+
+  <div class="well">
+    <form action="." method="post">
+      {% csrf_token %}
+      <input class="btn btn-warning" type="submit" name="sync-prices" value="Обновить цены и остатки с RetailCRM" />
+      <input class="btn btn-warning" type="submit" name="sync-fields" value="Обновить поля" />
+      <input class="btn btn-warning" type="submit" name="sync-items" value="Добавить новые товары из RetailCRM" />
+    </form>
+  </div>
+
+
+  <h2>Товары только на RetailCRM:</h2>
+  <table class="table">
+    <tr>
+      <th>RetailCRM ID</th>
+      <th>Артикул</th>
+      <th>Имя на RetailCRM</th>
+      <th>(цена)</th>
+    </tr>
+    {% for id in f_left_set %}
+    <tr>
+      <td>{{ id }}</td>
+      <td>{{ plist_f[id]['article'] }}</td>
+      <td>{{ plist_f[id]['name'] }}</td>
+      <td>{{ plist_f[id]['price'] }}р</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Товары только на Vkusnyan:</h2>
+  <table class="table">
+    <tr>
+      <th>RetailCRM ID</th>
+      <th>Артикул</th>
+      <th>Имя на Vkusnyan.ru</th>
+      <th>(цена)</th>
+    </tr>
+    {% for id in vk_left_set %}
+    <tr>
+      <td>{{ id }}</td>
+      <td>{{ plist_vk[id].article }}</td>      
+      <td>{{ plist_vk[id] }}</td>
+      <td>{{ plist_vk[id].price }}р</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Синхронизованы:</h2>
+  <table class="table">
+    <tr>
+      <th>RetailCRM ID</th>
+      <th>Артикул</th>      
+      <th>Имя на Vkusnyan.ru</th>
+      <th>(цена)</th>
+      <th>(кол-во доступно)</th>
+      <th>(в наличии)</th>
+
+      <th>Имя на RetailCRM</th>
+      <th>(цена)</th>
+      <th>(кол-во доступно)</th>
+    </tr>
+    {% for id in common %}
+    <tr>
+      <td>{{ id }}</td>
+      <td>{{ plist_vk_by_new_id[id].article }}</td>
+      <td>{{ plist_vk_by_new_id[id] }}</td>
+      <td>{{ plist_vk_by_new_id[id].price }}р</td>
+      <td>{{ plist_vk_by_new_id[id].count_available }}</td>
+      <td>{% if plist_vk_by_new_id[id].in_stock %}Да{% else %}Нет{% endif %}</td>
+      
+      <td>{{ plist_f[id]['name'] }}</td>
+      <td>{{ plist_f[id]['price'] }}р</td>
+      <td>{{ plist_f[id]['count_available'] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

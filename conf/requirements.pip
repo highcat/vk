@@ -1,0 +1,44 @@
+django==1.9
+-e git+https://github.com/miracle2k/django-assets.git#egg=django-assets
+django-jinja
+django-hijack
+django-sortedm2m
+django-extensions
+django-ajax-selects
+django-codemirror2
+django-celery-with-redis
+
+# DRF
+djangorestframework
+markdown
+django-filter
+
+
+
+# XXX bugs in other versions, e.g. no Facebook email
+python-social-auth==0.2.1
+
+python-dateutil
+pytz
+pillow
+transliterate
+
+psycopg2
+jsmin
+cssutils
+requests
+
+telepot
+# Emailing fuctionality tested with different clients (Outlook, Gmail, etc)
+-e git+https://github.com/highcat/emailer.git#egg=emailer
+
+# Lock on a pidfile, for cron jobs
+-e git+https://github.com/highcat/web_tasks.git#egg=web_tasks
+
+# infrastructure:
+gunicorn
+fabric
+pyyaml
+raven
+ipython
+django_nose

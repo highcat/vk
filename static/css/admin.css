@@ -1,0 +1,10 @@
+/* hello */
+.calendarbox {
+    z-index: 100;
+}
+
+/* HTML editor to full height */
+.CodeMirror {
+  border: 1px solid #eee!important;
+  height: auto!important;
+}

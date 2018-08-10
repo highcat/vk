@@ -1,0 +1,39 @@
+<li>
+	<span>
+      <a href="/product/{{ product.id }}/{{ product.slug }}/">
+        <div class="item-img {% if not (product.in_stock or product.preorder) %}img-not-in-stock{% endif %}"
+             style="background-image: url({{ product.preview|version_url|i_resize(202) }});"
+             ></div>
+        {% if product.is_new %}
+          <img src="{{ 'images/new.png'|version_url }}" alt="new" class="new" width="202" height="250"/>
+        {% endif %}
+        {% if product.overlay_image %}
+          <div class="item-img-overlay" style="background-image: url({{ product.overlay_image|version_url }});"></div>
+        {% endif %}
+      </a>
+    </span>
+    <div class="product-short-info">
+      {% if product.discount_price %}
+
+	    <div class="price5">{{ product.short_name }}</div>
+	    <div class="price4"><font color="#940000">{{ product.short_info }}</font></div><br/>
+       {#        <div class="price5">{{ product.ru_name }}</div> #}
+		<span class="price2">{{ product.discount_price }}<i class="rub">р</i></span>
+		<span class="price1">{{ product.price }}р</span>
+		
+      {% else %}
+
+	    <div class="price5">{{ product.short_name }}</div>
+	    <div class="price4"><font color="#940000">{{ product.short_info }}</font></div><br/>
+       {#        <div class="price5">{{ product.ru_name }}</div> #}
+		<span class="price">{{ product.price }}<i class="rub">р</i></span>
+      {% endif %}
+    </div>
+
+	<div class="number-add">
+    {% include "_buy_button.html" %}
+    </div>
+
+    {% include "_product_item_admin_marks.html" %}
+</li>
+

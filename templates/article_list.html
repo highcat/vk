@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ super() }}{% endblock %}
+{% block description %}{{ super() }}{% endblock %}
+{% block keywords %}{{ super() }}{% endblock %}
+
+{% block content %}
+<div id="contents">
+  <div id="article-list-page">
+    <ul class="article-list">
+      {% for a in articles %}
+      <li>
+        <h2><a href="/a/{{ a.id }}/{{ a.slug }}/">{{ a.title }}</a></h2>
+        {% if a.image %}
+          <a href="/a/{{ a.id }}/{{ a.slug }}/"><img class="main-image" src="{{ a.image|version_url }}" /></a>
+        {% endif %}
+        <div class="article-content">
+          <a href="/a/{{ a.id }}/{{ a.slug }}/">Читать далее...</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

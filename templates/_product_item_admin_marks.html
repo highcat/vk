@@ -1,0 +1,20 @@
+{% if user.is_authenticated() and (user.is_superuser or user|has_group('content-managers')) %}
+  <div class="item-admin-marks">
+    <a href="/admin/shop/{{ 'productkitmodelproxy' if product.is_product_kit else 'product' }}/{{ product.id }}">Редактировать</a>;
+    Остаток: {{ product.count_available }}
+    <div>
+      {% if product.best_before_1 %}
+        Годен до: {{ product.best_before_1|date("d.m.Y") }}
+      {% endif %}
+      {% if product.best_before_2 %}
+         &nbsp;|&nbsp; новый: {{ product.best_before_2|date("d.m.Y") }}
+      {% endif %}
+    </div>
+    {% if product.is_market_test %}
+      <div style="padding: 4px 0; background-color: rgba(248, 86, 77, 0.5);">
+        Тест Рынка / Закупка При Заказе
+      </div>
+    {% endif %}    
+    
+  </div>
+{% endif %}

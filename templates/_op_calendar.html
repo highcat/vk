@@ -1,0 +1,30 @@
+{% if user.is_staff %}
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#opCalendarModal">
+    Календарь работы склада
+  </button>
+{% endif %}
+
+<!-- Modal -->
+<div class="modal fade" id="opCalendarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Календарь работы склада</h4>
+      </div>
+      <div class="modal-body op-calendar-placeholder">
+        <div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script id="op-calendar-template" type="text/html">
+  <div class="datetime-picker" style="overflow:hidden;">
+  </div>
+</script>

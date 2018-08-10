@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.page_title or super() }}{% endblock %}
+{% block description %}{{ section.page_description or super() }}{% endblock %}
+{% block keywords %}{{ section.page_keywords or super() }}{% endblock %}
+
+{% block content %}
+<div id="contents_menu" style="background: repeat-x left bottom;">
+  <div id="section">
+    <ul class="items">
+      {% for product in items %}
+        {% include '_product_item.html' %}
+      {% endfor %}
+    </ul>
+  </div>
+</div> <!-- /#contents -->
+{% endblock %}

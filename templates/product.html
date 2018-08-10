@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.page_title or super() }}{% endblock %}
+{% block description %}{{ product.page_description or super() }}{% endblock %}
+{% block keywords %}{{ product.page_keywords or super() }}{% endblock %}
+
+{% block content %}
+<div id="contents">
+	<div id="product-page">
+		<div class="last">
+			<div class="item-block">
+			  <span>
+                <div class="item-img item-img--product-page {% if not (product.in_stock or product.preorder) %}img-not-in-stock{% endif %}"
+                     style="background-image: url({{ product.preview|version_url|i_resize(252) }});"></div>
+                {% if product.is_new %}
+                  <img src="{{ 'images/new.png'|version_url }}" alt="new" class="new" width="202" height="250"/>
+                {% endif %}
+                {% if product.overlay_image %}
+                  <div class="item-img-overlay1 item-img-overlay--product-page" style="background-image: url({{ product.overlay_image|version_url }});"></div>
+                {% endif %}
+
+			  </span> 
+			  <a class="info">Цена: <font color="#940000">{{ product.discount_price or product.price }}<i class="rub">р</i></font></a><br>
+              {% include "_buy_button.html" %}
+              {% include "_product_item_admin_marks.html" %}
+            </div>
+           
+            {{ product.description_html|safe }}
+		</div>
+
+		<a class="info">Цена: <font color="#940000">{{ product.discount_price or product.price }}<i class="rub">р</i></font></a><br>
+		<div class="info-buttons2">
+          {% include "_buy_button.html" %}
+		</div>
+
+		<div class="info-buttons">
+			<a href="javascript: void(0);" class="back" onclick="history.go(-1)">назад в магазин</a> 
+		</div>
+	</div>
+</div> <!-- /#contents -->
+{% endblock %}

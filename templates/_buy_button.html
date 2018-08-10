@@ -1,0 +1,30 @@
+{% if product.in_stock or product.preorder %}
+  {% with is_preorder = (product.preorder and not product.in_stock) %}
+    <input class="cart-buy-count" data-minval="1" data-maxval="99" type="number" value="1" size="1" min="1" max="99">
+    <a href="#" class="cart-buy-button {% if is_preorder %}cart-buy-button--preorder{% endif %}"
+       data-id="{{ product.id }}"
+       data-name="{{ product.short_name }}"
+       data-price="{{ product.price }}"
+       {% if is_preorder %}
+         data-preorder="{{ product.preorder|date('d.m.Y') }}"
+       {% endif %}           
+       data-discount-price="{{ product.discount_price or 0 }}"
+       data-count="1">
+      {%- if is_preorder -%}
+        предзаказ<br>на {{ product.preorder|date("d E") }}
+      {%- else -%}
+      
+        <svg id="xf-svg__cart" viewBox="0 0 32 32" width="100%" height="100%">
+<title>cart</title>
+<path d="M13.005 26.227c0 1.166-0.946 2.112-2.112 2.112s-2.112-0.946-2.112-2.112c0-1.166 0.946-2.112 2.112-2.112s2.112 0.946 2.112 2.112z"></path>
+<path d="M27.2 26.227c0 1.166-0.946 2.112-2.112 2.112s-2.112-0.946-2.112-2.112c0-1.166 0.946-2.112 2.112-2.112s2.112 0.946 2.112 2.112z"></path>
+<path d="M0 5.85h5.734l2.56 16.986h16.64c0.002 0 0.004 0 0.006 0 1.605 0 2.945-1.132 3.267-2.64l-17.583-0.022-0.461-2.995h16.717c0.002 0 0.004 0 0.006 0 1.605 0 2.945-1.132 3.267-2.64l-20.387-0.022-0.422-2.79h19.456c0.002 0 0.004 0 0.006 0 1.605 0 2.945-1.132 3.267-2.64l-23.113-0.022-0.922-5.862h-4.8c0 0-0.001 0-0.001 0-1.593 0-2.922 1.128-3.234 2.628z"></path>
+</svg>
+
+      {%- endif -%}
+    </a>
+  {% endwith %}    
+{% else %}
+  <input class="cart-buy-count" data-minval="1" data-maxval="99" type="number" value="0" size="1" min="1" max="99">
+  <a href="javascript:void(0)" class="cart-buy-button_not">скоро появится</a>
+{% endif %}

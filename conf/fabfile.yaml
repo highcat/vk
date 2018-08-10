@@ -1,0 +1,18 @@
+local:
+  db_name: vk
+
+prod:
+  hosts:
+    - vkusnyan.ru
+  user: arixez
+  git_branch: master
+  db_name: vk
+  crontab_file: crontab.txt
+
+stage:
+  hosts:
+    - stage.vkusnyan.ru
+  user: vk_stage
+  git_branch: develop
+  db_name: vk_stage
+  crontab_file: crontab.txt
