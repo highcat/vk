@@ -100,8 +100,8 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'article',
         # 
         'short_name',
-        'ru_name',
         'short_info',
+        'info2',        
         'preview',
         'overlay_image',
         #
@@ -129,8 +129,8 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'retailcrm_link',
         'retailcrm_id',
         'short_name', # берётся из CRM
-        'ru_name', # берётся из CRM
         'short_info', # берётся из CRM
+        'info2', # берётся из CRM        
         'article',
         'price',
         'discount_price',
@@ -140,7 +140,7 @@ class ProductAdmin_Base(admin.ModelAdmin):
     list_display = (
         lambda o: u'{} - {}'.format(o.short_name, o.short_info),
         'article',
-        'ru_name',        
+        'info2',
         'retailcrm_link',
         'is_market_test',
         'price',
@@ -148,7 +148,7 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'in_stock',
         'is_new',
     )
-    search_fields = ['short_name', 'ru_name', 'short_info', 'article']
+    search_fields = ['short_name', 'short_info', 'info2', 'article']
     class Media:
         css = {
              'all': ('css/admin.css?v=1',)

@@ -203,7 +203,7 @@ def sync_new_items():
                     retailcrm_id=p['id'],
                     article=crm_article,
                     short_name=names['en'],
-                    ru_name=names['ru'],
+                    info2=names['info2'],
                     short_info=names['info'] or '',
                     description_html=GET_SITE_PREFS().product_description_template,
                 )
@@ -241,7 +241,7 @@ def sync_fields():
             names = parse_name(p['name'])
             Product.objects.filter(retailcrm_id=p['id']).update(
                 short_name=names['en'],
-                ru_name=names['ru'],
+                info2=names['info2'],
             )
             if names['info'] is not None:
                 Product.objects.filter(retailcrm_id=p['id']).update(
@@ -251,36 +251,34 @@ def sync_fields():
 
 
 def parse_name(retailcrm_name):
-    """Делим имя на англ и рус. часть"""
-    MAX_LENGTH = 100
+    """Делим имя на название и инфо"""
     parts = retailcrm_name.split('/')
-    ru = ''
-    en = ''
-    info = None
-    # Split
-    for p in parts[:2]:
-        if re.search(u"([а-яА-Я]){3}", p, flags=re.U):
-            ru = p
-        elif re.search(u"([a-zA-Z]){3}", p, flags=re.U):
-            en = p
-    if len(parts) == 3:
-        info = parts[2].strip()
-    if not en:
-        en = parts[0]
-    # Strip
-    ru = ru.strip()
-    en = en.strip()
+    
+    en = parts[0]
+    info = parts[1] if len(parts) > 1 else ''    
+    info2 = parts[2] if len(parts) > 2 else ''
+
+    MAX_LENGTH = 100
     # Trim
-    ru_trim = ru[:MAX_LENGTH]
     en_trim = en[:MAX_LENGTH]
-    if len(ru_trim) < len(ru):
-        ru_trim = ru_trim[:MAX_LENGTH-1] + u'…'
     if len(en_trim) < len(en):
         en_trim = en_trim[:MAX_LENGTH-1] + u'…'
+    info_trim = info[:MAX_LENGTH]
+    if len(info_trim) < len(info):
+        info_trim = info_trim[:MAX_LENGTH-1] + u'…'
+    info2_trim = info[:MAX_LENGTH]
+    if len(info2_trim) < len(info):
+        info2_trim = info2_trim[:MAX_LENGTH-1] + u'…'
+    
+    # Strip
+    en = en_trim.strip()
+    info = info_trim.strip()
+    info2 = info2_trim.strip()
+    
     return {
-        'ru': ru_trim,
-        'en': en_trim,
+        'en': en,
         'info': info,
+        'info2': info2,        
     }
 
 

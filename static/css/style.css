@@ -13,7 +13,7 @@ body {
 	border-top: 1px solid #ffffff;
 }
 #page {
-	width: 1200px;
+	width: 1130px;
 	margin: 0 auto;
 }
 @font-face {
@@ -407,7 +407,7 @@ a.cart-button:hover {
 	color: #1e1e1e;
 }
 #header-network {
-	width: 1200px;
+	width: 1130px;
 	margin: 0;
     padding-left: 10px;
 	color: #1e1e1e
@@ -508,26 +508,23 @@ a.cart-button:hover {
 /** \gation **/
 #header-navigation {
 	background-color: #e4e4e4;
-    display: block;
-    list-style-type: none;
-    padding-left: 0px;
-    /* padding-top: 0px; */
-    /* height: 60px; */
-    /* padding: 0px 5px 0px 5px; */
-    
+	list-style-type: none;
+	padding-left: 0px;
+	height: 60px;
+/*	padding: 18px 5px 0px 5px; */
+
     /* хак с равномерными отступами */
 	text-align: justify;
 	margin-bottom: 0px; /* скрываем menu-justify-hack */
 }
 #header-navigation > li {
-	display: table-cell;
-	position: relative;
-    font-family: 'Minecraft Rus Regular';
-    font-size: 22px;
-    line-height: 22px;
-    font-weight: bold;
-    text-align: center;
-    padding: 0px 10px 0px 10px;
+	display: inline-block;
+	font-family: 'Minecraft Rus Regular';
+	font-size: 22px;
+	font-weight: bold;
+	text-align: center;
+/*	background-color: #ffffff;  */
+/*	box-shadow: inset 0px 0px 0px 1px #665420; */
 }
 
 #header-navigation > li:hover, 

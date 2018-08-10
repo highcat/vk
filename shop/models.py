@@ -27,8 +27,8 @@ class Product(models.Model):
     retailcrm_id = models.IntegerField(null=True, unique=True, blank=True, verbose_name=u"ID из RetailCRM")
 
     short_name = models.CharField(max_length=300, verbose_name=u"Имя", help_text="основное имя, для витрины")
-    ru_name = models.CharField(max_length=300, blank=True, verbose_name=u"Имя (рус)", help_text="для витрины")
-    short_info = models.CharField(max_length=40)
+    short_info = models.CharField(max_length=100)
+    info2 = models.CharField(max_length=300, blank=True, verbose_name=u"Инфо 2")
     slug = models.CharField(max_length=40, blank=True)
     preview = models.ImageField(upload_to="product-previews")
     price = models.IntegerField(default=0)

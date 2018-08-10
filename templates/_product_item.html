@@ -16,16 +16,16 @@
       {% if product.discount_price %}
 
 	    <div class="price5">{{ product.short_name }}</div>
+       {#        <div class="price5">{{ product.info2 }}</div> #}
 	    <div class="price4"><font color="#940000">{{ product.short_info }}</font></div><br/>
-       {#        <div class="price5">{{ product.ru_name }}</div> #}
 		<span class="price2">{{ product.discount_price }}<i class="rub">р</i></span>
 		<span class="price1">{{ product.price }}р</span>
 		
       {% else %}
 
 	    <div class="price5">{{ product.short_name }}</div>
+       {#        <div class="price5">{{ product.info2 }}</div> #}
 	    <div class="price4"><font color="#940000">{{ product.short_info }}</font></div><br/>
-       {#        <div class="price5">{{ product.ru_name }}</div> #}
 		<span class="price">{{ product.price }}<i class="rub">р</i></span>
       {% endif %}
     </div>
