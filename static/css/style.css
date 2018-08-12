@@ -13,7 +13,7 @@ body {
 	border-top: 1px solid #ffffff;
 }
 #page {
-	width: 1130px;
+	width: 1204px;
 	margin: 0 auto;
 }
 @font-face {
@@ -407,7 +407,7 @@ a.cart-button:hover {
 	color: #1e1e1e;
 }
 #header-network {
-	width: 1130px;
+	width: 1204px;
 	margin: 0;
     padding-left: 10px;
 	color: #1e1e1e
