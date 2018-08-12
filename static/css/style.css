@@ -507,10 +507,11 @@ a.cart-button:hover {
 
 /** \gation **/
 #header-navigation {
+	display: block;
 	background-color: #e4e4e4;
 	list-style-type: none;
 	padding-left: 0px;
-	height: 60px;
+/*	height: 60px; */
 /*	padding: 18px 5px 0px 5px; */
 
     /* хак с равномерными отступами */
@@ -518,13 +519,14 @@ a.cart-button:hover {
 	margin-bottom: 0px; /* скрываем menu-justify-hack */
 }
 #header-navigation > li {
-	display: inline-block;
+	display: table-cell;
+	position: relative;
 	font-family: 'Minecraft Rus Regular';
 	font-size: 22px;
+	line-height: 22px;
 	font-weight: bold;
 	text-align: center;
-/*	background-color: #ffffff;  */
-/*	box-shadow: inset 0px 0px 0px 1px #665420; */
+	padding: 0px 10px 0px 10px;
 }
 
 #header-navigation > li:hover, 
