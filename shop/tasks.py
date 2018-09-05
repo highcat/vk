@@ -11,11 +11,13 @@ import telepot
 from smtplib import SMTPAuthenticationError
 
 
+from telepot import exception as telepot_exception
+
 TELEPOT_EXCEPTIONS_TO_SKIP = (
-    telepot.exception.BotWasKickedError,
-    telepot.exception.BotWasBlockedError,
-    telepot.exception.NotEnoughRightsError,
+    telepot_exception.BotWasKickedError,
+    telepot_exception.BotWasBlockedError,
 )
+
 
 @task(ignore_result=True)
 def sync_order(order_id):
