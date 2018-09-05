@@ -11,6 +11,12 @@ import telepot
 from smtplib import SMTPAuthenticationError
 
 
+TELEPOT_EXCEPTIONS_TO_SKIP = (
+    telepot.exception.BotWasKickedError,
+    telepot.exception.BotWasBlockedError,
+    telepot.exception.NotEnoughRightsError,
+)
+
 @task(ignore_result=True)
 def sync_order(order_id):
     order = Order.objects.get(id=order_id)
@@ -81,10 +87,13 @@ def telegram_bot_send(order):
         # msg = u'Заказ с Vkusnyan.ru на {price}р'.format(price=data['total_price'])
         msg = 'Vkusnyan.ru order, {price} RUB'.format(price=data['total_price'])
         for rec in TelegramBotRecipient.objects.filter(bot=bot_model):
-            if rec.authorized:
-                bot.sendMessage(rec.recipient_id, msg, parse_mode='markdown')
-            else:
-                bot.sendMessage(rec.recipient_id, u"You're not authorized. Please enter password.", parse_mode='markdown')
+            try:
+                if rec.authorized:
+                    bot.sendMessage(rec.recipient_id, msg, parse_mode='markdown')
+                else:
+                    bot.sendMessage(rec.recipient_id, u"You're not authorized. Please enter password.", parse_mode='markdown')
+            except TELEPOT_EXCEPTIONS_TO_SKIP:
+                log.exception("unable to send to recipient")
 
 
 def telegram_bot_message(msg):
