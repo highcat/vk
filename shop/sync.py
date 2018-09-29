@@ -78,6 +78,8 @@ def collect_sync_data():
                 'name': p['name'],
                 'price': price,
                 'discount_price': discount_price,
+                # Возвращает сразу по всем складам, 'quantity' не фильтруется по магазину.
+                # FIXME Использовать /api/v5/store/inventories: offers[][stores][][quantity]
                 'count_available': p['quantity'] if p['active'] else 0,
                 'offer_ids': [o['id'] for o in p['offers']],
             }

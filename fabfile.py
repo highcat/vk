@@ -100,7 +100,7 @@ def clone_db():
                 excl_string = ' '.join(['--exclude-table-data={0}'.format(d) for d in TABLES_TO_EXCLUDE])
             else:
                 excl_string = ''
-            run('pg_dump -p 5434 {dbname} {exclusions} | bzip2 > {dump_file}'.format(
+            run('pg_dump {dbname} {exclusions} | bzip2 > {dump_file}'.format(
                 dbname=env.remote_db_name,
                 exclusions=excl_string,
                 dump_file=dump_filename,

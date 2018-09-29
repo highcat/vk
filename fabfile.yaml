@@ -1,5 +1,5 @@
 local:
-  db_name: vk
+  db_name: vkusnyan
 
 prod:
   hosts:
