@@ -155,10 +155,10 @@ def sync_prices(obj_ids, new_data):
         payload.append({
             'id': kit.retailcrm_offers.all()[0].offer_id,
             'stores': [{
-                'code': 'smarta-red-room',
+                'code': store,
                 'available': 9999,
                 'purchasePrice': 0.01, # XXX проблема RetailCRM: 0 рублей выставить нельзя
-            }],
+            } for store in settings.RETAILCRM_ALL_STORES],
         })
     url = "{}{}".format(BASE_URL, '/store/inventories/upload')
 

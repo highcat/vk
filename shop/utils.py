@@ -63,6 +63,7 @@ from django.utils.http import urlencode
 BASE_URL = 'https://{}.retailcrm.ru/api/v4'.format(settings.RETAILCRM_ACCOUNT_NAME)
 BASE_URL_V5 = 'https://{}.retailcrm.ru/api/v5'.format(settings.RETAILCRM_ACCOUNT_NAME)
 SHOP_ID = settings.RETAILCRM_SHOP_ID
+ALL_STORES = settings.RETAILCRM_ALL_STORES
 
 def paginate_retailcrm(endpoint, args=None, base_url=BASE_URL):
     if not args:

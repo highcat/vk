@@ -364,6 +364,10 @@ FRONTPAD_API_SECRET = "***"
 RETAILCRM_API_SECRET = "***"
 RETAILCRM_ACCOUNT_NAME = 'smarta'
 RETAILCRM_SHOP_ID = 'vkusnyan-ru'
+RETAILCRM_ALL_STORES = [
+    'polus-tretyak',
+    'smarta-red-room',
+]
 
 
 LOGIN_URL = '/admin/login/'
