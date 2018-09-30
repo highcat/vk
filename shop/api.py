@@ -405,7 +405,7 @@ def _order_to_retail_crm(order):
 
     if order.data.get('delivery') == 'selfdelivery':
         order_payload['delivery']['code'] = 'self-delivery'
-        order_payload['delivery']['address'] = {'text': u'м.Перово, ул. Утренняя 14к3'}
+        order_payload['delivery']['address'] = {'text': u'м.Третьяковская, Большая Татарская 21с4.'}
         # order_payload['delivery']['cost'] = ...
     else:
         order_payload['delivery']['code'] = 'some-delivery'
