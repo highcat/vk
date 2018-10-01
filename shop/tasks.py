@@ -63,9 +63,9 @@ def telegram_bot_update_recipients():
             if not r.authorized:
                 if bot_model.password in m['message']['text'].strip():
                     r.authorized = True
-                    r.first_name = m['message']['from'].get('first_name')
-                    r.last_name = m['message']['from'].get('last_name')
-                    r.username = m['message']['from'].get('username')
+                    r.first_name = m['message']['from'].get('first_name', '')
+                    r.last_name = m['message']['from'].get('last_name', '')
+                    r.username = m['message']['from'].get('username', '')
                     r.save()
                     if created:
                         # TODO XXX unicode messages give errors
