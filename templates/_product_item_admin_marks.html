@@ -2,6 +2,15 @@
   <div class="item-admin-marks">
     <a href="/admin/shop/{{ 'productkitmodelproxy' if product.is_product_kit else 'product' }}/{{ product.id }}">Редактировать</a>;
     Остаток: {{ product.count_available }}
+
+    {% with c = product.get_count_by_stores() %}
+      [
+      {{- c.total }}:
+      {% for s in c.stores %}
+        <span title="{{ s[0] }}">{{ s[1] }}</span> {{- ',' if not loop.last else '' -}}
+      {% endfor -%}
+      ]
+    {% endwith %}      
     <div>
       {% if product.best_before_1 %}
         Годен до: {{ product.best_before_1|date("d.m.Y") }}

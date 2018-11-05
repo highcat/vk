@@ -97,7 +97,10 @@ def collect_sync_data():
         'limit': '250',
     }, base_url=BASE_URL_V5):
         for offer in data['offers']:
+            all_stores = set(slug for slug, store in store_dict.items())
+            # Existing stores - set quantity
             for store in offer['stores']:
+                all_stores.remove[store['store']]
                 try:
                     store_dict[store['store']]
                 except KeyError:
@@ -118,6 +121,21 @@ def collect_sync_data():
                     )
                 oc.count = store['quantity']
                 oc.save()
+            # Stores not returned listed - zero quantity
+            for s in all_stores:
+                try:
+                    oc = ProductOfferCount.objects.get(
+                        offer__offer_id=offer['id'],
+                        store=s,
+                    )
+                except ProductOfferCount.DoesNotExist:
+                    oc = ProductOfferCount(
+                        offer=ProductOffer.objects.get(offer_id=offer['id']),
+                        store=s,
+                    )
+                oc.count = 0
+                oc.save()
+                
             
 
     common = set()

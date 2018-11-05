@@ -37,9 +37,9 @@ def pull():
     with cd(PROJECT_DIR), hide('running', 'stdout', 'stderr'):
         run('git pull origin %s' % env.git_branch)
 
-def restart_vk():
+def restart_web():
     with cd(PROJECT_DIR):
-        run('supervisorctl -c ~/supervisord.conf restart vk')
+        run('supervisorctl -c ~/supervisord.conf restart gunicorn')
 
 def restart_celery():
     with cd(PROJECT_DIR):
@@ -65,7 +65,7 @@ def start_web():
         # 1. never stop redis,
         # 2. don't stop odoo in this script
         # 3. use supervisor's groups
-        run('supervisorctl -c ~/supervisord.conf start vk')
+        run('supervisorctl -c ~/supervisord.conf start gunicorn')
 
 
 def install_deps():
@@ -177,6 +177,6 @@ def deploy_nl():
     collectstatic()
     run_migrations()
     restart_celery()
-    restart_vk()
+    restart_web()
     crontab_deploy()
     print(green('Deployed successfully', bold=True))
