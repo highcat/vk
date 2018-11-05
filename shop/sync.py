@@ -227,8 +227,6 @@ def sync_prices(obj_ids, new_data):
             if max_count == INFINITY:
                 max_count = 0
 
-            print '>>>>>', store.retailcrm_slug, max_count, kit.short_name
-
             kit_makeable_count, created = ProductKitMakeableCount.objects.get_or_create(
                 product=kit,
                 store=store,
