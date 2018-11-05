@@ -8,6 +8,7 @@ from .models import (
     Section,
     SitePreferences, 
     Order,
+    Store,
     Article,
     PromoCode, AutoPromoCode,
     TelegramBot, TelegramBotRecipient,
@@ -229,6 +230,7 @@ admin.site.register(ProductKitModelProxy, ProductAdmin_Kits)
 admin.site.register(ProductOrKitSelectorModelProxy, ProductOrKitSelectorAdmin)
 
 
+admin.site.register(Store)
 
 
 class SectionAdmin(admin.ModelAdmin):

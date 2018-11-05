@@ -68,8 +68,20 @@ class ProductOffer(models.Model):
     Needed to store IDs.
     """
     product = models.ForeignKey(Product, related_name="retailcrm_offers")
-    offer_id = models.IntegerField()
-    # count = models.PositiveIntegerField()
+    offer_id = models.IntegerField() # FIXME retailcrm_offer_id
+
+    
+class Store(models.Model):
+    name = models.CharField(max_length=200)
+    retailcrm_slug = models.CharField(max_length=200)
+    def __unicode__(self):
+        return u'{} [{}]'.format(self.name, self.retailcrm_slug)
+
+
+class ProductOfferCount(models.Model):
+    offer = models.ForeignKey(ProductOffer)
+    store = models.ForeignKey(Store)
+    count = models.PositiveIntegerField()
 
 
 class ProductImage(models.Model):

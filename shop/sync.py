@@ -16,9 +16,12 @@ import requests
 from shop.utils import BASE_URL, BASE_URL_V5, SHOP_ID
 from shop.utils import process_api_error
 from time import sleep
+from vk.logs import log
 
-
-from .models import Product, Section, Order, Article, ProductOffer
+from .models import (
+    Product, Section, Order, Article, ProductOffer,
+    ProductOfferCount, Store,
+)
 from .utils import GET_SITE_PREFS
 from .utils import paginate_retailcrm
 
@@ -47,6 +50,7 @@ def collect_sync_data():
 
     plist_f = {}
     for data in paginate_retailcrm('/store/products', {
+        'limit': '100',
     }):
         for p in data['products']:
             # assert p['minPrice'] == p['maxPrice']
@@ -84,6 +88,37 @@ def collect_sync_data():
                 'offer_ids': [o['id'] for o in p['offers']],
             }
             # pprint(p)
+
+    # Save count by stores
+    store_dict = dict((s.retailcrm_slug, s) for s in Store.objects.all())
+    for data in paginate_retailcrm('/store/inventories', {
+        'filter[details]': '1',
+        'filter[offerActive]': '1',            
+        'limit': '250',
+    }, base_url=BASE_URL_V5):
+        for offer in data['offers']:
+            for store in offer['stores']:
+                try:
+                    store_dict[store['store']]
+                except KeyError:
+                    log.exception('Need to add store to website', extra={
+                        'store': store['store'],
+                        'product': ProductOffer.objects.get(offer_id=offer['id']).product.short_name,
+                    })
+                    continue
+                try:
+                    oc = ProductOfferCount.objects.get(
+                        offer__offer_id=offer['id'],
+                        store=store_dict[store['store']],
+                    )
+                except ProductOfferCount.DoesNotExist:
+                    oc = ProductOfferCount(
+                        offer=ProductOffer.objects.get(offer_id=offer['id']),
+                        store=store_dict[store['store']],
+                    )
+                oc.count = store['quantity']
+                oc.save()
+            
 
     common = set()
     vk_left = copy(plist_vk)
@@ -176,7 +211,9 @@ def sync_images():
     qs_products = Product.objects.filter(preview='')
     products = dict((p.retailcrm_id, p) for p in qs_products) # FIXME optimize for memory!
 
-    for data in paginate_retailcrm('/store/products', {}, base_url=BASE_URL_V5):
+    for data in paginate_retailcrm('/store/products', {
+        'limit': '100',
+    }, base_url=BASE_URL_V5):
         for p in data['products']:
             if p['id'] not in products:
                 continue
@@ -188,7 +225,9 @@ def sync_new_items():
     # 1. Добавить новые из RetailCRM
     products = dict((p.retailcrm_id, p) for p in Product.objects.all()) # FIXME optimize for memory!    
     in_retailcrm = set()
-    for data in paginate_retailcrm('/store/products', {}): # включая неактивные
+    for data in paginate_retailcrm('/store/products', {
+        'limit': '100',
+    }): # включая неактивные
         for p in data['products']:
             in_retailcrm.add(p['id'])
             if p['id'] not in products:
@@ -238,7 +277,9 @@ def sync_new_items():
 
 def sync_fields():
     # 1. Обновление имён
-    for data in paginate_retailcrm('/store/products', {}): # включая неактивные
+    for data in paginate_retailcrm('/store/products', {
+        'limit': '100',            
+    }): # включая неактивные
         for p in data['products']:
             names = parse_name(p['name'])
             Product.objects.filter(retailcrm_id=p['id']).update(
@@ -291,7 +332,9 @@ def fix_offers():
 
     We just update it here.
     """
-    for data in paginate_retailcrm('/store/products', {}):
+    for data in paginate_retailcrm('/store/products', {
+        'limit': '100',            
+    }):
         for p in data['products']:
             offers = p['offers']
 
