@@ -85,8 +85,13 @@ class ProductOffer(models.Model):
 class Store(models.Model):
     name = models.CharField(max_length=200)
     retailcrm_slug = models.CharField(max_length=200)
+    has_kit_packer = models.BooleanField(default=False, verbose_name=u"Есть сотрудник, упаковывающий наборы")
     def __unicode__(self):
         return u'{} [{}]'.format(self.name, self.retailcrm_slug)
+    class Meta:
+        verbose_name = u'Склад'
+        verbose_name_plural = u'Склады'
+        ordering = ['retailcrm_slug']
 
 
 class ProductOfferCount(models.Model):
@@ -114,7 +119,16 @@ class ProductKitItem(models.Model):
     order = models.IntegerField(default=0)
     class Meta:
         ordering = ['order']
-    
+
+    def get_count_on_store(self, store):
+        if not store.has_kit_packer:
+            return 0
+        return sum([oc.count for oc in  ProductOfferCount.objects.filter(
+            offer__product=self.product,
+            store=store,
+        )])
+        
+
 
 class Section(models.Model):
     name = models.CharField(max_length=15)

@@ -40,6 +40,7 @@ def full_sync():
 
 
 def collect_sync_data():
+    """FIXME уже синхронизует. Переименовать, упростить"""
     plist_vk = dict((p.id, p) for p in Product.objects.all())
     plist_vk_by_new_id = dict(
         (p.retailcrm_id or "(no retailcrm ID):{}".format(p.id), p)
@@ -89,6 +90,7 @@ def collect_sync_data():
             }
             # pprint(p)
 
+
     # Save count by stores
     store_dict = dict((s.retailcrm_slug, s) for s in Store.objects.all())
     for data in paginate_retailcrm('/store/inventories', {
@@ -97,16 +99,19 @@ def collect_sync_data():
         'limit': '250',
     }, base_url=BASE_URL_V5):
         for offer in data['offers']:
+            product = ProductOffer.objects.get(offer_id=offer['id']).product
             all_stores = set(slug for slug, store in store_dict.items())
             # Existing stores - set quantity
             for store in offer['stores']:
-                all_stores.remove[store['store']]
+                if product.is_product_kit:
+                    continue
+                all_stores.remove(store['store'])
                 try:
                     store_dict[store['store']]
                 except KeyError:
                     log.exception('Need to add store to website', extra={
                         'store': store['store'],
-                        'product': ProductOffer.objects.get(offer_id=offer['id']).product.short_name,
+                        'product': product.short_name,
                     })
                     continue
                 try:
@@ -126,16 +131,15 @@ def collect_sync_data():
                 try:
                     oc = ProductOfferCount.objects.get(
                         offer__offer_id=offer['id'],
-                        store=s,
+                        store=Store.objects.get(retailcrm_slug=s),
                     )
                 except ProductOfferCount.DoesNotExist:
                     oc = ProductOfferCount(
                         offer=ProductOffer.objects.get(offer_id=offer['id']),
-                        store=s,
+                        store=Store.objects.get(retailcrm_slug=s),
                     )
                 oc.count = 0
                 oc.save()
-                
             
 
     common = set()
@@ -189,6 +193,7 @@ def sync_prices(obj_ids, new_data):
          .exclude(offer_id__in=new_data[id]['offer_ids'])
          .delete()
         )
+    # [OLD] calculate counts of product kits
     for kit in Product.objects.filter(is_product_kit=True):
         max_count = 9999
         for ki in kit.kit_items.all():
@@ -203,7 +208,23 @@ def sync_prices(obj_ids, new_data):
             count_available=max_count,
             in_stock=True if max_count > 0 else False,
         )
-    
+    # Calculate counts of product kits by store
+    for store in Store.objects.all():
+        for kit in Product.objects.filter(is_product_kit=True):
+            max_count = 9999
+            for ki in kit.kit_items.all():
+                p = Product.objects.get(id=ki.product.id)
+                available = p.count_available
+                if p.preorder != None or p.is_market_test:
+                    available = 9999
+                max_for_ki = available / ki.get_count_on_store(store)
+                if max_count > max_for_ki:
+                    max_count = max_for_ki
+            Product.objects.filter(id=kit.id).update(
+                count_available=max_count,
+                in_stock=True if max_count > 0 else False,
+            )
+
     # Наборы: принудительно сбрасываем остатки и закупочные цены в CRM
     payload = []
     for kit in Product.objects.filter(is_product_kit=True):
