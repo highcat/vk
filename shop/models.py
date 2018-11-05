@@ -65,13 +65,18 @@ class Product(models.Model):
     
     def get_count_by_stores(self):
         store_dict = dict((s.retailcrm_slug, 0) for s in Store.objects.order_by('retailcrm_slug'))
-        for offer in self.retailcrm_offers.prefetch_related('counts_in_stores', 'counts_in_stores__store').all():
-            for oc in offer.counts_in_stores.all():
-                store_dict[oc.store.retailcrm_slug] += oc.count
+        if not self.is_product_kit:
+            for offer in self.retailcrm_offers.prefetch_related('counts_in_stores', 'counts_in_stores__store').all():
+                for oc in offer.counts_in_stores.all():
+                    store_dict[oc.store.retailcrm_slug] += oc.count
+        else:
+            for s, count in store_dict.iteritems():
+                store_dict[s] = ProductKitMakeableCount.objects.get(product=self, store__retailcrm_slug=s).count
         return {
             'total': sum(map(lambda x: x[1], store_dict.items())),
             'stores': sorted(store_dict.items(), key=lambda x: x[0]),
         }
+
 
 
 class ProductOffer(models.Model):
@@ -92,6 +97,12 @@ class Store(models.Model):
         verbose_name = u'Склад'
         verbose_name_plural = u'Склады'
         ordering = ['retailcrm_slug']
+
+
+class ProductKitMakeableCount(models.Model):
+    product = models.ForeignKey(Product, related_name='counts_makeable_in_stores')
+    store = models.ForeignKey(Store)
+    count = models.PositiveIntegerField()
 
 
 class ProductOfferCount(models.Model):

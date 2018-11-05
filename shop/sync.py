@@ -21,6 +21,7 @@ from vk.logs import log
 from .models import (
     Product, Section, Order, Article, ProductOffer,
     ProductOfferCount, Store,
+    ProductKitMakeableCount,
 )
 from .utils import GET_SITE_PREFS
 from .utils import paginate_retailcrm
@@ -209,21 +210,32 @@ def sync_prices(obj_ids, new_data):
             in_stock=True if max_count > 0 else False,
         )
     # Calculate counts of product kits by store
+    INFINITY = 9999
     for store in Store.objects.all():
         for kit in Product.objects.filter(is_product_kit=True):
-            max_count = 9999
+            max_count = INFINITY
             for ki in kit.kit_items.all():
                 p = Product.objects.get(id=ki.product.id)
                 available = p.count_available
                 if p.preorder != None or p.is_market_test:
-                    available = 9999
-                max_for_ki = available / ki.get_count_on_store(store)
+                    available = INFINITY
+                ki_count_on_store = ki.get_count_on_store(store)
+                max_for_ki = available / ki.get_count_on_store(store) if ki_count_on_store else INFINITY
                 if max_count > max_for_ki:
                     max_count = max_for_ki
-            Product.objects.filter(id=kit.id).update(
-                count_available=max_count,
-                in_stock=True if max_count > 0 else False,
+
+            if max_count == INFINITY:
+                max_count = 0
+
+            print '>>>>>', store.retailcrm_slug, max_count, kit.short_name
+
+            kit_makeable_count, created = ProductKitMakeableCount.objects.get_or_create(
+                product=kit,
+                store=store,
+                defaults={'count': 0},
             )
+            kit_makeable_count.count = max_count
+            kit_makeable_count.save()
 
     # Наборы: принудительно сбрасываем остатки и закупочные цены в CRM
     payload = []
