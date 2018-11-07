@@ -9,7 +9,7 @@
 	<div id="product-page">
 		<div class="last">
 			<div class="item-block">
-			  <span>
+			  <div class="item-block-inside">
                 <div class="item-img item-img--product-page {% if not (product.in_stock or product.preorder) %}img-not-in-stock{% endif %}"
                      style="background-image: url({{ product.preview|version_url|i_resize(252) }});"></div>
                 {% if product.is_new %}
@@ -19,7 +19,7 @@
                   <div class="item-img-overlay1 item-img-overlay--product-page" style="background-image: url({{ product.overlay_image|version_url }});"></div>
                 {% endif %}
 
-			  </span> 
+			  </div> 
 			  <a class="info">Цена: <font color="#940000">{{ product.discount_price or product.price }}<i class="rub">р</i></font></a><br>
               {% include "_buy_button.html" %}
               {% include "_product_item_admin_marks.html" %}

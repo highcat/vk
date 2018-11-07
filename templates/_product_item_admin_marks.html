@@ -10,7 +10,8 @@
         <span title="{{ s[0] }}">{{ s[1] }}</span> {{- ',' if not loop.last else '' -}}
       {% endfor -%}
       ]
-    {% endwith %}      
+    {% endwith %}
+    
     <div>
       {% if product.best_before_1 %}
         Годен до: {{ product.best_before_1|date("d.m.Y") }}
@@ -24,6 +25,5 @@
         Тест Рынка / Закупка При Заказе
       </div>
     {% endif %}    
-    
   </div>
 {% endif %}

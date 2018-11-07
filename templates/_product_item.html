@@ -1,5 +1,5 @@
 <li>
-	<span>
+    <div class="item-block-insideitem">
       <a href="/product/{{ product.id }}/{{ product.slug }}/">
         <div class="item-img {% if not (product.in_stock or product.preorder) %}img-not-in-stock{% endif %}"
              style="background-image: url({{ product.preview|version_url|i_resize(202) }});"
@@ -11,7 +11,7 @@
           <div class="item-img-overlay" style="background-image: url({{ product.overlay_image|version_url }});"></div>
         {% endif %}
       </a>
-    </span>
+    </div>
     <div class="product-short-info">
       {% if product.discount_price %}
 
