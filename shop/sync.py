@@ -91,58 +91,6 @@ def collect_sync_data():
             }
             # pprint(p)
 
-
-    # Save count by stores
-    store_dict = dict((s.retailcrm_slug, s) for s in Store.objects.all())
-    for data in paginate_retailcrm('/store/inventories', {
-        'filter[details]': '1',
-        'filter[offerActive]': '1',            
-        'limit': '250',
-    }, base_url=BASE_URL_V5):
-        for offer in data['offers']:
-            product = ProductOffer.objects.get(offer_id=offer['id']).product
-            all_stores = set(slug for slug, store in store_dict.items())
-            # Existing stores - set quantity
-            for store in offer['stores']:
-                if product.is_product_kit:
-                    continue
-                all_stores.remove(store['store'])
-                try:
-                    store_dict[store['store']]
-                except KeyError:
-                    log.exception('Need to add store to website', extra={
-                        'store': store['store'],
-                        'product': product.short_name,
-                    })
-                    continue
-                try:
-                    oc = ProductOfferCount.objects.get(
-                        offer__offer_id=offer['id'],
-                        store=store_dict[store['store']],
-                    )
-                except ProductOfferCount.DoesNotExist:
-                    oc = ProductOfferCount(
-                        offer=ProductOffer.objects.get(offer_id=offer['id']),
-                        store=store_dict[store['store']],
-                    )
-                oc.count = store['quantity']
-                oc.save()
-            # Stores not returned listed - zero quantity
-            for s in all_stores:
-                try:
-                    oc = ProductOfferCount.objects.get(
-                        offer__offer_id=offer['id'],
-                        store=Store.objects.get(retailcrm_slug=s),
-                    )
-                except ProductOfferCount.DoesNotExist:
-                    oc = ProductOfferCount(
-                        offer=ProductOffer.objects.get(offer_id=offer['id']),
-                        store=Store.objects.get(retailcrm_slug=s),
-                    )
-                oc.count = 0
-                oc.save()
-            
-
     common = set()
     vk_left = copy(plist_vk)
     f_left = copy(plist_f)
@@ -194,6 +142,57 @@ def sync_prices(obj_ids, new_data):
          .exclude(offer_id__in=new_data[id]['offer_ids'])
          .delete()
         )
+
+    # Save count by stores
+    store_dict = dict((s.retailcrm_slug, s) for s in Store.objects.all())
+    for data in paginate_retailcrm('/store/inventories', {
+        'filter[details]': '1',
+        'filter[offerActive]': '1',            
+        'limit': '250',
+    }, base_url=BASE_URL_V5):
+        for offer in data['offers']:
+            product = ProductOffer.objects.get(offer_id=offer['id']).product
+            all_stores = set(slug for slug, store in store_dict.items())
+            # Existing stores - set quantity
+            for store in offer['stores']:
+                if product.is_product_kit:
+                    continue
+                all_stores.remove(store['store'])
+                try:
+                    store_dict[store['store']]
+                except KeyError:
+                    log.exception('Need to add store to website', extra={
+                        'store': store['store'],
+                        'product': product.short_name,
+                    })
+                    continue
+                try:
+                    oc = ProductOfferCount.objects.get(
+                        offer__offer_id=offer['id'],
+                        store=store_dict[store['store']],
+                    )
+                except ProductOfferCount.DoesNotExist:
+                    oc = ProductOfferCount(
+                        offer=ProductOffer.objects.get(offer_id=offer['id']),
+                        store=store_dict[store['store']],
+                    )
+                oc.count = store['quantity']
+                oc.save()
+            # Stores not returned listed - zero quantity
+            for s in all_stores:
+                try:
+                    oc = ProductOfferCount.objects.get(
+                        offer__offer_id=offer['id'],
+                        store=Store.objects.get(retailcrm_slug=s),
+                    )
+                except ProductOfferCount.DoesNotExist:
+                    oc = ProductOfferCount(
+                        offer=ProductOffer.objects.get(offer_id=offer['id']),
+                        store=Store.objects.get(retailcrm_slug=s),
+                    )
+                oc.count = 0
+                oc.save()
+        
     # [OLD] calculate counts of product kits
     for kit in Product.objects.filter(is_product_kit=True):
         max_count = 9999
@@ -410,9 +409,9 @@ def fix_offers():
                 print 
                 print 
                 print 
-                print "Prices not equal for:"
-                pprint(offers)
-                print "updating...."
+                # print "Prices not equal for:"
+                # pprint(offers)
+                # print "updating...."
                 # prices[][prices][] array of objects (PriceUploadPricesInput)Цена торгового предложения
                 # prices[][prices][][code] string Код типа цены
                 # prices[][prices][][price] float Цена
