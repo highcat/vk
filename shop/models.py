@@ -64,16 +64,16 @@ class Product(models.Model):
 
     
     def get_count_by_stores(self):
-        store_dict = dict((s.retailcrm_slug, 0) for s in Store.objects.order_by('retailcrm_slug'))
+        store_dict = dict((s.retailcrm_slug, {'count': 0, 'store': s}) for s in Store.objects.order_by('retailcrm_slug'))
         if not self.is_product_kit:
             for offer in self.retailcrm_offers.prefetch_related('counts_in_stores', 'counts_in_stores__store').all():
                 for oc in offer.counts_in_stores.all():
-                    store_dict[oc.store.retailcrm_slug] += oc.count
+                    store_dict[oc.store.retailcrm_slug]['count'] += oc.count
         else:
             for s, count in store_dict.iteritems():
-                store_dict[s] = ProductKitMakeableCount.objects.get(product=self, store__retailcrm_slug=s).count
+                store_dict[s]['count'] = ProductKitMakeableCount.objects.get(product=self, store__retailcrm_slug=s).count
         return {
-            'total': sum(map(lambda x: x[1], store_dict.items())),
+            'total': sum(map(lambda x: x[1]['count'], store_dict.items())),
             'stores': sorted(store_dict.items(), key=lambda x: x[0]),
         }
 

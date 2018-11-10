@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Section, Order, Article
-from .utils import GET_SITE_PREFS
+from vk.utils import GET_SITE_PREFS
 
 def index(request):
     return HttpResponseRedirect(GET_SITE_PREFS().main_page_redirect)

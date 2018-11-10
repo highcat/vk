@@ -19,8 +19,10 @@ def prod():
     env.user = config['prod']['user']
     env.git_branch = config['prod']['git_branch']
     env.remote_db_name = config['prod']['db_name']
+    env.remote_psql_port = config['prod']['psql_port']
     env.crontab_file = config['prod']['crontab_file']
     env.local_db_name = config['local']['db_name']
+    env.local_psql_port = config['local']['psql_port']
 
 def stage():
     env.context = 'stage'
@@ -28,8 +30,10 @@ def stage():
     env.user = config['stage']['user']
     env.git_branch = config['stage']['git_branch']
     env.remote_db_name = config['stage']['db_name']
+    env.remote_psql_port = config['prod']['psql_port']
     env.crontab_file = config['stage']['crontab_file']
     env.local_db_name = config['local']['db_name']
+    env.local_psql_port = config['local']['psql_port']
 
 
 
@@ -100,16 +104,17 @@ def clone_db():
                 excl_string = ' '.join(['--exclude-table-data={0}'.format(d) for d in TABLES_TO_EXCLUDE])
             else:
                 excl_string = ''
-            run('pg_dump {dbname} {exclusions} | bzip2 > {dump_file}'.format(
+            run('pg_dump -p {psql_port} {dbname} {exclusions} | bzip2 > {dump_file}'.format(
+                psql_port=env.remote_psql_port,
                 dbname=env.remote_db_name,
                 exclusions=excl_string,
                 dump_file=dump_filename,
             ))
             get(dump_filename, dump_filename)
             with settings(warn_only=True):
-                local('dropdb %s' % env.local_db_name)
-            local('createdb %s' % env.local_db_name)
-            local('bzip2 -dc %s | psql %s' % (dump_filename, env.local_db_name))
+                local('dropdb -p {} {}'.format(env.local_psql_port, env.local_db_name))
+            local('createdb -p {} {}'.format(env.local_psql_port, env.local_db_name))
+            local('bzip2 -dc {} | psql -p {} {}'.format(dump_filename, env.local_psql_port, env.local_db_name))
             # Reset user passords for admins to "11"
             local('python manage.py user-passwords-to-11 --apply')
         finally:

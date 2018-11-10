@@ -1,5 +1,6 @@
 local:
   db_name: vkusnyan
+  psql_port: 5433
 
 prod:
   hosts:
@@ -7,4 +8,5 @@ prod:
   user: vkusnyan
   git_branch: master
   db_name: vkusnyan
+  psql_port: 5432  
   crontab_file: crontab.txt

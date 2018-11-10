@@ -28,7 +28,7 @@ from .models import Product, Order, PromoCode, AutoPromoCode, OperationalDay
 from . import tasks
 from .utils import _normalize_phone
 from .utils import paginate_retailcrm
-from shop.utils import BASE_URL, SHOP_ID
+from shop.utils import SHOP_ID, BASE_API_URL
 
 from django import forms
 from django.forms import ValidationError
@@ -444,7 +444,7 @@ def _order_to_retail_crm(order):
         # Количество товара
         ua_i['quantity'] = i['count']
 
-    url = "{}{}".format(BASE_URL, '/orders/create')
+    url = "{}{}".format(BASE_API_URL, '/orders/create')
 
     r = requests.post(url, data={
         'apiKey': settings.RETAILCRM_API_SECRET,

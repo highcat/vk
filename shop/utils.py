@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from django.contrib.sites.models import Site
+import re
+import requests
 from django.conf import settings
-from django.core.cache import caches
-from .models import SitePreferences
+from django.utils.http import urlencode
 from vk.logs import log
 
 
 class OrderProcessingError(Exception):
     pass
+
 
 def process_api_error(response, silent=False, context_message=u"*some event*"):
     r = response
@@ -30,20 +31,6 @@ def process_api_error(response, silent=False, context_message=u"*some event*"):
     
     
 
-def GET_SITE_PREFS():
-    cache = caches['default']
-    if cache.get('site_prefs'):
-        return cache.get('site_prefs')
-    try:
-        obj = SitePreferences.objects.get(site__id=settings.SITE_ID)
-    except SitePreferences.DoesNotExist:
-        obj = SitePreferences(site=Site.objects.get()) # create 1st time
-        obj.save()
-    cache.set('site_prefs', obj, 120)
-    return obj
-
-
-import re
 def _normalize_phone(phone):
     p = phone
     p = re.sub(r'[\s\(\)\-]+', '', p).strip()
@@ -56,16 +43,13 @@ def _normalize_phone(phone):
     return p
 
 
-
-
-import requests
-from django.utils.http import urlencode
-BASE_URL = 'https://{}.retailcrm.ru/api/v4'.format(settings.RETAILCRM_ACCOUNT_NAME)
+BASE_URL_V4 = 'https://{}.retailcrm.ru/api/v4'.format(settings.RETAILCRM_ACCOUNT_NAME)
 BASE_URL_V5 = 'https://{}.retailcrm.ru/api/v5'.format(settings.RETAILCRM_ACCOUNT_NAME)
+BASE_API_URL = BASE_URL_V5
 SHOP_ID = settings.RETAILCRM_SHOP_ID
 ALL_STORES = settings.RETAILCRM_ALL_STORES
 
-def paginate_retailcrm(endpoint, args=None, base_url=BASE_URL):
+def paginate_retailcrm(endpoint, args=None):
     if not args:
         args = []
     if isinstance(args, dict):
@@ -79,7 +63,7 @@ def paginate_retailcrm(endpoint, args=None, base_url=BASE_URL):
             ('page', str(page)),
             ('apiKey', settings.RETAILCRM_API_SECRET),
         ]
-        url = "{}{}?{}".format(base_url, endpoint, urlencode(a))
+        url = "{}{}?{}".format(BASE_API_URL, endpoint, urlencode(a))
         r = requests.get(url)
         d = r.json()
         assert d['success'], d

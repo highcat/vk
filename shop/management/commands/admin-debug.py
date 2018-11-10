@@ -17,7 +17,7 @@ import codecs
 sys.stdout = codecs.getwriter('utf8')(sys.stdout)
 sys.stderr = codecs.getwriter('utf8')(sys.stderr)
 
-from shop.utils import paginate_retailcrm, BASE_URL_V5
+from shop.utils import paginate_retailcrm, BASE_API_URL
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -46,7 +46,7 @@ class Command(BaseCommand):
             'filter[details]': '1',
             'filter[offerActive]': '1',                
             'limit': '250',
-        }, base_url=BASE_URL_V5):
+        }, base_url=BASE_API_URL):
             # pprint(data)
             for offer in data['offers']:
                 # pprint(offer)

@@ -13,7 +13,7 @@ from django.utils import timezone
 
 import json
 import requests
-from shop.utils import BASE_URL, BASE_URL_V5, SHOP_ID
+from shop.utils import BASE_API_URL, SHOP_ID
 from shop.utils import process_api_error
 from time import sleep
 from vk.logs import log
@@ -23,7 +23,7 @@ from .models import (
     ProductOfferCount, Store,
     ProductKitMakeableCount,
 )
-from .utils import GET_SITE_PREFS
+from vk.utils import GET_SITE_PREFS
 from .utils import paginate_retailcrm
 
 
@@ -149,13 +149,15 @@ def sync_prices(obj_ids, new_data):
         'filter[details]': '1',
         'filter[offerActive]': '1',            
         'limit': '250',
-    }, base_url=BASE_URL_V5):
+    }):
         for offer in data['offers']:
             product = ProductOffer.objects.get(offer_id=offer['id']).product
             all_stores = set(slug for slug, store in store_dict.items())
             # Existing stores - set quantity
             for store in offer['stores']:
                 if product.is_product_kit:
+                    continue
+                if store['store'] not in all_stores:
                     continue
                 all_stores.remove(store['store'])
                 try:
@@ -245,7 +247,7 @@ def sync_prices(obj_ids, new_data):
                 'purchasePrice': 0.01, # XXX проблема RetailCRM: 0 рублей выставить нельзя
             } for store in settings.RETAILCRM_ALL_STORES],
         })
-    url = "{}{}".format(BASE_URL, '/store/inventories/upload')
+    url = "{}{}".format(BASE_API_URL, '/store/inventories/upload')
 
     r = requests.post(url, data={
         'apiKey': settings.RETAILCRM_API_SECRET,
@@ -261,7 +263,7 @@ def sync_images():
 
     for data in paginate_retailcrm('/store/products', {
         'limit': '100',
-    }, base_url=BASE_URL_V5):
+    }):
         for p in data['products']:
             if p['id'] not in products:
                 continue
@@ -310,7 +312,7 @@ def sync_new_items():
         if p.retailcrm_id not in in_retailcrm:
             print "unlinking product:", p.retailcrm_id
             # Recheck once more in CRM!
-            url = "{}{}?{}".format(BASE_URL, '/store/products', urlencode([
+            url = "{}{}?{}".format(BASE_API_URL, '/store/products', urlencode([
                 ('filter[ids][]', p.retailcrm_id),
                 ('apiKey', settings.RETAILCRM_API_SECRET),
             ]))
@@ -426,7 +428,7 @@ def fix_offers():
                     })
                 print "fixing with: "
                 pprint(payload)
-                url = "{}{}".format(BASE_URL, '/store/prices/upload')
+                url = "{}{}".format(BASE_API_URL, '/store/prices/upload')
                 r = requests.post(url, data={
                     'apiKey': settings.RETAILCRM_API_SECRET,
                     'site': SHOP_ID,
