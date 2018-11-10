@@ -1468,6 +1468,29 @@ div.item-block .item-admin-marks
 }
 
 
+/* ------------------------------ Operator ------------------------------ */
+.operator-panel {
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    background-color: #eee8;
+    border-radius: 10px;
+    padding: 0 5px;
+}
+.operator-panel > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.operator-panel > ul > li {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.operator-panel > h2 {
+    font-size: 20px;
+    text-align: center;
+}
+
 /* ------------------------------ Other ------------------------------ */
 
 a.button {
