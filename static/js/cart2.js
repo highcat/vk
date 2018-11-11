@@ -165,6 +165,7 @@ $(function(){
             events: {
                 'click .cart-hide > a': 'onHide',
                 'click .cart-clear > a': 'onClear',
+                'scroll': 'onScroll',
             },
             regions: {
                 cart: '.cart-region',
@@ -217,7 +218,39 @@ $(function(){
                 this.showChildView('cart', this._childViews.cart);
                 this.showChildView('orderForm', this._childViews.orderForm);
                 this.showChildView('orderSent', this._childViews.orderSent);
-                this.limitMaxSize();
+                var self=this;
+                self.onScroll(); // FIXME: somehow it won't work;
+            },
+          onScroll: function(){
+              var scrollTop = this.$el.scrollTop();
+              var widgetH = this.$el.innerHeight();
+              var contentH = this.$el.prop('scrollHeight');
+              if (widgetH >= contentH) {
+                return;
+              }
+              var tolerance = 50;
+              var bottomStrength = 1.0;
+              var topStrength = 1.0;
+
+              var bottomScrollLeft = contentH - (scrollTop + widgetH);
+              if (bottomScrollLeft < tolerance) {
+                bottomStrength = bottomScrollLeft / tolerance;
+              }
+              var topScrollLeft = scrollTop;
+              if (topScrollLeft < tolerance) {
+                topStrength = topScrollLeft / tolerance;
+              }
+              var borderWidth = parseInt(this.$el.css('borderWidth'));
+              // FIXME somehow it won't work on FireFox
+              this.$('.shadow-overlay').css({
+                'top': this.$el.position().top+borderWidth+'px',
+                'left': this.$el.position().left+borderWidth+'px',                
+                'width': this.$el.innerWidth()+'px',
+                'height': this.$el.innerHeight()+'px', 
+                'box-shadow': (
+                  '0 -' + (70 * bottomStrength) + 'px 40px -50px rgba(0,0,0,.8) inset, ' + 
+                  '0px '+ (70 * topStrength) +'px 40px -50px rgba(0,0,0,.8) inset' ),
+              });
             },
             hide: function(){
                 this.$el.addClass('hide');
@@ -226,16 +259,11 @@ $(function(){
                 this.$el.removeClass('hide');
                 // go to 1st page
                 this.setVisiblePage('cart');
-                this.limitMaxSize();
-            },
-            limitMaxSize: function() {
-                if (this.$el.position().top + this.$el.height() > $(window).height()-5) {
-                    this.$el.css('bottom', '5px');
-                }
             },
             toggle: function(){
                 if (this.$el.hasClass('hide')) {
-                    this.show();
+                  this.show();
+                    this.onScroll();                  
                 } else {
                     this.hide();
                 }

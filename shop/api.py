@@ -124,6 +124,7 @@ def order_complete(request):
 
     # Run post-processing task
     tasks.sync_order.delay(order.id)
+    tasks.book_order.delay(order.id)
 
     data['order_sent'] = True
     # needed for Universal Analytics / Yandex Metrika
@@ -409,27 +410,10 @@ def _order_to_retail_crm(order):
         order_payload['discountPercent'] = order.data['discounts']['variable']
 
 
-      # *** Блок Логистики ***
-    # # См https://help.retailcrm.ru/Users/Logistics
-    # # Как выбирается склад отгрузки:
-    # # 1. Самовывоз: склад отгрузки = место самовывоза.
-    # # 1.1. Оптимизация: подбираем offers товара именно с этого склада.
-    # # 2. Курьер: склад отгрузки = то, где больше товара
-    # # 2.1. Где есть весь товар (с учётом offers)
-    # # 2.2. Где больше всего товара.  (с учётом offers)
-    # # 2.3. Идеал: где больше всего товара по объёму и массе, а также ближе всего к клиенту.
-    # # 
-    # # 3. Создать задачу на перенос товара - в RetailCRM, в Telegram.
-    # if partial_shipment:
-    #     '/api/v5/orders/combine' # ??? ручной выбор склада
-    # else:
-    #     order_payload['shipmentStore']
-
     if order.data.get('delivery').startswith('selfdelivery--'):
         store = Store.objects.get(retailcrm_slug=order.data['delivery'][len('selfdelivery--'):])
-        # FIXME shipmentStore - это склад отгрузки. А нам нужен склад бронирования!!!
+        # shipmentStore - просто выставляет склад отгрузки. Не бронирует.
         order_payload['shipmentStore'] = store.retailcrm_slug
-        print "order_payload['shipmentStore']", order_payload['shipmentStore']
         order_payload['delivery']['code'] = 'self-delivery'
         order_payload['delivery']['address'] = {'text': store.address}
         # order_payload['delivery']['cost'] = ...

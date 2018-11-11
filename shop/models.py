@@ -197,6 +197,8 @@ class Order(models.Model):
 
     data = JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    booked = models.BooleanField(default=False)
     
     email_to_managers = models.BooleanField(default=False)
     sent_to_telegram_bot = models.BooleanField(default=False)

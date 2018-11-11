@@ -44,7 +44,7 @@
       var USER_LOGGED_IN = {{ 'true' if user.is_authenticated() else 'false' }};
       var USER_IS_ADMIN = {{ 'true' if user.is_staff else 'false' }};
       var CSRF = '{{ csrf_token }}';
-      var JS_DEBUG = {% if debug %}true{% else %}false{% endif %};
+      var JS_DEBUG = {% if settings.DEBUG %}true{% else %}false{% endif %};
     </script>
     <script src="{{ 'js/log.js'|version_url }}"></script>
     <script src="{{ 'js/underscore-min.js'|version_url }}"></script>

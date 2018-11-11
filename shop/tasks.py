@@ -9,9 +9,8 @@ from vk.logs import log
 from pprint import pprint
 import telepot
 from smtplib import SMTPAuthenticationError
-
-
 from telepot import exception as telepot_exception
+from . import logistics
 
 TELEPOT_EXCEPTIONS_TO_SKIP = (
     telepot_exception.BotWasKickedError,
@@ -49,7 +48,14 @@ def sync_order(order_id):
             Order.objects.filter(id=order.id).update(sent_to_telegram_bot=True)
         except Exception:
             log.exception("Error sending order to telegram bot")
-        
+
+
+
+@task(ignore_result=True)
+def book_order(order_id):
+    order = Order.objects.get(id=order_id)
+    logistics.book(order)
+
 
 
 def telegram_bot_update_recipients():
@@ -81,6 +87,7 @@ def telegram_bot_update_recipients():
         TelegramBot.objects.filter(id=bot_model.id).update(updates_offset=offset)
 
 
+
 def telegram_bot_send(order):
     for bot_model in TelegramBot.objects.all():
         bot = telepot.Bot(bot_model.api_key)
@@ -96,6 +103,7 @@ def telegram_bot_send(order):
                     bot.sendMessage(rec.recipient_id, u"You're not authorized. Please enter password.", parse_mode='markdown')
             except TELEPOT_EXCEPTIONS_TO_SKIP:
                 log.exception("unable to send to recipient")
+
 
 
 def telegram_bot_message(msg):

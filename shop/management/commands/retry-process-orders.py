@@ -10,7 +10,7 @@ from django.conf import settings
 from shop.models import (
     Order
 )
-from shop.tasks import sync_order
+from shop.tasks import sync_order, book_order
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Q
@@ -35,6 +35,7 @@ class Command(BaseCommand):
 #            .filter(created_at__lte=timezone.now()-timedelta(minutes=5 if settings.PROFILE != 'DEV' else 0))
             .filter(id__gte=280) # old orders on PROD
             .filter(
+                Q(booked=False) |                
                 Q(email_to_managers=False) |
                 Q(sent_to_telegram_bot=False) |                
                 # Q(email_to_customer=False) |
@@ -44,8 +45,13 @@ class Command(BaseCommand):
         print qs.count()
         for o in qs.values('id'):
             print 'Processing order', o['id']
+
+            try:
+                book_order(o['id'])
+            except Exception:
+                log.exception('book_order error')
+                
             try:
                 sync_order(o['id'])
-            except Exception, e:
+            except Exception:
                 log.exception('sync_order error')
-                print 'error', e
