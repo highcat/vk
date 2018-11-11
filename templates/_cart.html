@@ -1,5 +1,8 @@
-
 <div class="cart-widget hide"></div>
+
+<script>
+  var STORES = {{ STORES|jsonify_2_script() }};
+</script>
 
 <script id="cart-button-template" type="text/html">
   <% if (items.length > 0) { %>
@@ -132,28 +135,19 @@
 
 
     <div class="form-group field-delivery">
-      <div class="delivery-option" data-d-type="selfdelivery--smarta-red-room">
+      <% _.each(['smarta-red-room', 'polus-tretyak'], function(slug){ %>
+      <div class="delivery-option" data-d-type="selfdelivery--<%= slug %>">
         <label class="control-label">
-          <input name="delivery" type="radio" value="selfdelivery--smarta-red-room" <% if (order.delivery=='selfdelivery--smarta-red-room'){ %>checked<% } %> >
-          самовывоз Перово
+          <input name="delivery" type="radio" value="selfdelivery--<%= slug %>" <% if (order.delivery=='selfdelivery--'+slug){ %>checked<% } %> >
+          самовывоз <%= stores[slug].cart_name %>
         </label>
         <div class="delivery-details">
-          Самовывоз с 10:00 до 21:00 по будням
-          <br><b>адрес: Москва, м.Перово, ул. Утренняя, 14к3</b>
+          Самовывоз <%= stores[slug].work_hours %>
+          <br><b>адрес: <%= stores[slug].address %></b>
         </div>
       </div>
+      <% }); %>
 
-      <div class="delivery-option" data-d-type="selfdelivery--polus-tretyak">
-        <label class="control-label">
-          <input name="delivery" type="radio" value="selfdelivery--polus-tretyak" <% if (order.delivery=='selfdelivery--polus-tretyak'){ %>checked<% } %> >
-          самовывоз Третьяковская
-        </label>
-        <div class="delivery-details">
-          Самовывоз с 08:00 до 18:00 без перерывов и выходных
-          <br><b>адрес: Москва, м.Третьяковская, Большая Татарская 21с4</b>
-        </div>
-      </div>
-      
       <div class="delivery-option" data-d-type="delivery">
         <label class="control-label">
           <input name="delivery" type="radio" value="delivery" <% if (order.delivery=='delivery'){ %>checked<% } %> >

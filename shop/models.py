@@ -86,9 +86,10 @@ class ProductOffer(models.Model):
     product = models.ForeignKey(Product, related_name="retailcrm_offers")
     offer_id = models.IntegerField() # FIXME retailcrm_offer_id
 
-    
+
 class Store(models.Model):
     name = models.CharField(max_length=200, verbose_name=u"Название")
+    cart_name = models.CharField(max_length=200, verbose_name=u"Короткое название для корзины")
     address = models.CharField(max_length=500, verbose_name=u"Адрес")
     work_hours = models.CharField(max_length=500, verbose_name=u"Часы работы")
     retailcrm_slug = models.CharField(max_length=200)

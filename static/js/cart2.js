@@ -2,7 +2,7 @@
 /* -*- mode: js; js-indent-level: 4; -*- */
 /* global _, _l, Mn, Backbone */
 /* global globalConfirm, globalMessage */
-/* global USER_LOGGED_IN, USER_IS_ADMIN */
+/* global USER_LOGGED_IN, USER_IS_ADMIN, STORES */
 /* global ga */
 
 $(function(){
@@ -370,6 +370,10 @@ $(function(){
             serializeData: function(){
                 var d = {};
                 d.order = this.model.toJSON();
+                d.stores = {};
+              _l('111')
+              _.each(STORES, function(s){ d.stores[s.retailcrm_slug] = s; });
+              _l('>>>', JSON.stringify(d.stores));
                 return d;
             },
             initialize: function(options){

@@ -11,7 +11,6 @@ from shop.models import Section, Product
 from django.contrib.auth.models import Group
 from django_jinja import library
 from jinja2 import contextfunction
-from jinja2 import Markup
 
 
 @contextfunction
@@ -37,3 +36,12 @@ def section_menu_link(context, slug):
 def _has_group(user, group_name):
     group = Group.objects.get(name=group_name) 
     return group in user.groups.all() 
+
+
+@library.filter('jsonify_2_script')
+def jsonify_2_script(data):
+    return Markup(
+        json.dumps(data, indent=4, ensure_ascii=False)
+        .replace('<script>', '<scri"+"pt>')
+        .replace('</script>', '</scri"+"pt>')
+    );
