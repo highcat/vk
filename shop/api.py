@@ -403,7 +403,13 @@ def _order_to_retail_crm(order):
         # },
     }
 
+    if order.data['discounts']['fixed']:
+        order_payload['discount'] = order.data['discounts']['fixed']
+    if order.data['discounts']['variable']:
+        order_payload['discountPercent'] = order.data['discounts']['variable']
 
+
+      # *** Блок Логистики ***
     # # См https://help.retailcrm.ru/Users/Logistics
     # # Как выбирается склад отгрузки:
     # # 1. Самовывоз: склад отгрузки = место самовывоза.
@@ -419,21 +425,19 @@ def _order_to_retail_crm(order):
     # else:
     #     order_payload['shipmentStore']
 
-
-    if order.data['discounts']['fixed']:
-        order_payload['discount'] = order.data['discounts']['fixed']
-    if order.data['discounts']['variable']:
-        order_payload['discountPercent'] = order.data['discounts']['variable']
-
-    # if order.data.get('delivery') == 'selfdelivery':
     if order.data.get('delivery').startswith('selfdelivery--'):
+        store = Store.objects.get(retailcrm_slug=order.data['delivery'][len('selfdelivery--'):])
+        # FIXME shipmentStore - это склад отгрузки. А нам нужен склад бронирования!!!
+        order_payload['shipmentStore'] = store.retailcrm_slug
+        print "order_payload['shipmentStore']", order_payload['shipmentStore']
         order_payload['delivery']['code'] = 'self-delivery'
-        order_payload['delivery']['address'] = {'text': u'м.Третьяковская, Большая Татарская 21с4.'}
+        order_payload['delivery']['address'] = {'text': store.address}
         # order_payload['delivery']['cost'] = ...
     else:
         order_payload['delivery']['code'] = 'some-delivery'
         order_payload['delivery']['address'] = {'text': order.data['contact_address']}
         # order_payload['delivery']['cost'] = ...
+
 
     ua_items = []
     for i in items:

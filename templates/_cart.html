@@ -135,7 +135,7 @@
 
 
     <div class="form-group field-delivery">
-      <% _.each(['smarta-red-room', 'polus-tretyak'], function(slug){ %>
+      <% _.each(['polus-tretyak', 'smarta-red-room'], function(slug){ %>
       <div class="delivery-option" data-d-type="selfdelivery--<%= slug %>">
         <label class="control-label">
           <input name="delivery" type="radio" value="selfdelivery--<%= slug %>" <% if (order.delivery=='selfdelivery--'+slug){ %>checked<% } %> >
@@ -143,7 +143,9 @@
         </label>
         <div class="delivery-details">
           Самовывоз <%= stores[slug].work_hours %>
-          <br><b>адрес: <%= stores[slug].address %></b>
+          <br>
+          <b>адрес: <%= stores[slug].address %></b>
+          <a target="_blank" href="https://yandex.ru/maps/213/moscow/?mode=search&text=<%= encodeURIComponent(stores[slug].address) %>">карта</a>
         </div>
       </div>
       <% }); %>

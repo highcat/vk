@@ -674,7 +674,7 @@ a.cart-button:hover {
     position: fixed;
     right: 5px;
     top: 50px;
-    min-width: 300px;
+    width: 420px;    
     max-width: inherit;
     padding: 12px;
     border: 2px solid rgba(30, 30, 30, 0.3);
@@ -1036,6 +1036,7 @@ a.cart-buy-button_not:hover {
     font-size: 18px;
     padding: 5px 10px;
     border-radius: 5px;
+    max-width: 100%;
 }
 
 /*------------------------------ Product Page ------------------------------*/

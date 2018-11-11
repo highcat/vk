@@ -371,9 +371,7 @@ $(function(){
                 var d = {};
                 d.order = this.model.toJSON();
                 d.stores = {};
-              _l('111')
-              _.each(STORES, function(s){ d.stores[s.retailcrm_slug] = s; });
-              _l('>>>', JSON.stringify(d.stores));
+                _.each(STORES, function(s){ d.stores[s.retailcrm_slug] = s; });
                 return d;
             },
             initialize: function(options){
