@@ -680,6 +680,7 @@ a.cart-button:hover {
     border: 2px solid rgba(30, 30, 30, 0.3);
     background-color: #e4e4e4;
     overflow-y: auto;
+    max-height: calc(100% - 55px);
 }
 .cart {
     color: #1e1e1e!important;
@@ -1020,6 +1021,14 @@ a.cart-buy-button_not:hover {
     color: blue;
     text-shadow: -1px 1px lightblue;
     text-align: right;
+}
+
+.cart-widget .operator-order-fields {
+    color: white;
+    background-color: grey;
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 /*------------------------------ Product Page ------------------------------*/

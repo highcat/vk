@@ -129,22 +129,54 @@
              placeholder="ваш email (не обязательно)"
              required value="<%= order.contact_email %>">
     </div>
+
+
     <div class="form-group field-delivery">
-      <label class="control-label"><input name="delivery" type="radio" value="selfdelivery" <% if (order.delivery=='selfdelivery'){ %>checked<% } %> >
-        самовывоз</label>
-      &nbsp;
-      <label class="control-label"><input name="delivery" type="radio" value="delivery" <% if (order.delivery=='delivery'){ %>checked<% } %> >
-        доставка</label>
-    </div>
-    <div class="form-group delivery-option" data-d-type="selfdelivery">
-      Самовывоз с 08:00 до 18:00 без перерывов и выходных<br><b>адрес: Москва, м.Третьяковская, Большая Татарская 21с4</b>
-    </div>
-    <div class="form-group delivery-option" data-d-type="delivery">
+      <label class="control-label">
+        <input name="delivery" type="radio" value="selfdelivery--smarta-red-room" <% if (order.delivery=='selfdelivery--smarta-red-room'){ %>checked<% } %> >
+        самовывоз Перово
+      </label>
+      <div class="form-group delivery-option" data-d-type="selfdelivery--smarta-red-room">
+        Самовывоз с 10:00 до 21:00 по будням
+        <br><b>адрес: Москва, м.Перово, ул. Утренняя, 14к3</b>
+      </div>
+      
+      <br>
+      <label class="control-label">
+        <input name="delivery" type="radio" value="selfdelivery--polus-tretyak" <% if (order.delivery=='selfdelivery--polus-tretyak'){ %>checked<% } %> >
+        самовывоз Третьяковская
+      </label>
+      <div class="form-group delivery-option" data-d-type="selfdelivery--polus-tretyak">
+        Самовывоз с 08:00 до 18:00 без перерывов и выходных
+        <br><b>адрес: Москва, м.Третьяковская, Большая Татарская 21с4</b>
+      </div>
+      
+      <br>
+      <label class="control-label">
+        <input name="delivery" type="radio" value="delivery" <% if (order.delivery=='delivery'){ %>checked<% } %> >
+        доставка
+      </label>
+      <div class="form-group delivery-option" data-d-type="delivery">
         <label class="control-label" for="cart-address">Адрес доставки</label>
         <textarea type="text" name="contact_address" class="form-control" id="cart-address"
                   placeholder="введите ваш адрес"
                   required rows="3"><%= order.contact_address %></textarea>
+      </div>
+
+      <br>
+      <label class="control-label">
+        <input name="delivery" type="radio" value="post" <% if (order.delivery=='post'){ %>checked<% } %> >
+        доставка почтой
+      </label>
+      <div class="form-group delivery-option" data-d-type="post">
+        <label class="control-label" for="cart-address">Адрес</label>
+        <textarea type="text" name="contact_address" class="form-control" id="cart-address"
+                  placeholder="введите ваш адрес, индекс и полное ФИО"
+                  required rows="3"><%= order.contact_address %></textarea>
+      </div>
     </div>
+   
+    
     <div class="form-group">
       <input type="text" name="note" class="form-control" id="cart-time"
              placeholder="пожелания"
@@ -170,7 +202,7 @@
       <% } %>
   
       Всего на <%= order.total_price %>р
-      <% if (order.delivery && order.delivery!='selfdelivery') { %>
+      <% if (order.delivery && order.delivery in {'delivery':1, 'delivery-post':1}) { %>
         + доставка
       <% } %>
     </div>
@@ -184,29 +216,30 @@
       <div class="warn-note">Нажмите "Отправить заказ" ещё раз, чтобы всё равно продолжить.</div>
     <% } %>
 
-      <div><label style="margin-top: 5px; font-size: 12px; font-weight: normal;">
-        <input type="checkbox" name="accept-for-ads" checked style="vertical-align: text-bottom;"> получать информацию о скидках и акциях</label>
-      </div>
-      <button type="button" class="-visor-no-click btn btn-primary cart-send-order-button">
-        <span class="cart-send-order-button-label">Отправить заказ</span>
-      </button>
-      
-      <% if (USER_IS_ADMIN) { %>
-      <hr>
-      <div style="font-size: 18px">
+    <div><label style="margin-top: 5px; font-size: 12px; font-weight: normal;">
+      <input type="checkbox" name="accept-for-ads" checked style="vertical-align: text-bottom;"> получать информацию о скидках и акциях</label>
+    </div>
+
+    <% if (USER_IS_ADMIN) { %>
+    <div class="operator-order-fields">
         Я - оператор,
         <br><label style="font-weight: normal;"
                    title="выставляет источник 'по телефону'"
             >
-          <input type="checkbox" name="op-phone-order" checked style="vertical-align: text-bottom;">
+          <input type="checkbox" name="op_phone_order" style="vertical-align: text-bottom;" <% if (order['op_phone_order']){ %>checked<% } %> >
           это заказ по телефону
         </label>
         <br><label style="font-weight: normal;"
             >
-          <input type="checkbox" name="status-confirmed" style="vertical-align: text-bottom;">
+          <input type="checkbox" name="status_confirmed" style="vertical-align: text-bottom;" <% if (order['status_confirmed']){ %>checked<% } %>>
           уже согласован с клиентом (не слать СМС)
         </label>
       </div>
-      <% } %>
+    <% } %>
+      
+
+    <button type="button" class="-visor-no-click btn btn-primary cart-send-order-button">
+      <span class="cart-send-order-button-label">Отправить заказ</span>
+    </button>
   </form>
 </script>

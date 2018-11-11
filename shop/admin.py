@@ -231,7 +231,7 @@ admin.site.register(ProductOrKitSelectorModelProxy, ProductOrKitSelectorAdmin)
 
 
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'retailcrm_slug', 'has_kit_packer')
+    list_display = ('name', 'address', 'retailcrm_slug', 'has_kit_packer')
 
 admin.site.register(Store, StoreAdmin)
 

@@ -1,3 +1,5 @@
+
+/* -*- mode: js; js-indent-level: 4; -*- */
 /* global _, _l, Mn, Backbone */
 /* global globalConfirm, globalMessage */
 /* global USER_LOGGED_IN, USER_IS_ADMIN */
@@ -29,6 +31,8 @@ $(function(){
         discounts: {variable: 0, fixed: 0, names: []},
         errors: {},
         warnings: {},
+        op_phone_order: true,
+        status_confirmed: false,
     };
 
     if ($('.cart-placeholder').length) {
@@ -397,8 +401,8 @@ $(function(){
                 data.delivery = this.$('[name=delivery]:checked').val() || ''; // NOT undefined
                 data.contact_address = this.$('[name=contact_address]').val();
                 data.accept_for_ads = this.$('[name=accept-for-ads]').is(':checked');
-                data.op_phone_order = this.$('[name=op-phone-order]').is(':checked')  || '';
-                data.status_confirmed = this.$('[name=status-confirmed]').is(':checked')  || '';
+                data.op_phone_order = this.$('[name=op_phone_order]').is(':checked')  || '';
+                data.status_confirmed = this.$('[name=status_confirmed]').is(':checked')  || '';
                 return data;
             },
             saveDataFromDOM: function(){

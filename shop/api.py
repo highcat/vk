@@ -23,7 +23,7 @@ from django.db.models import F, Q
 from django.conf import settings
 from .utils import process_api_error
 
-from .models import Product, Order, PromoCode, AutoPromoCode, OperationalDay
+from .models import Product, Order, PromoCode, AutoPromoCode, OperationalDay, Store
 
 from . import tasks
 from .utils import _normalize_phone
@@ -40,10 +40,7 @@ class OrderForm(forms.Form):
     contact_phone = forms.CharField(max_length=100)
     contact_email = forms.EmailField(required=False)
     contact_address = forms.CharField(max_length=500, required=False)
-    delivery = forms.ChoiceField(choices=(
-        ('delivery', 'delivery'),
-        ('selfdelivery', 'selfdelivery'),
-    ))
+    delivery = forms.CharField(max_length=100)
 
     note = forms.CharField(required=False, max_length=500)
 
@@ -66,8 +63,15 @@ class OrderForm(forms.Form):
         if delivery == 'delivery':
             if not contact_address:
                 self.add_error('contact_address', u"Введите адрес!")
-        elif delivery == 'selfdelivery':
-            pass
+        elif delivery == 'delivery-post':
+            if not contact_address:
+                self.add_error('contact_address', u"Введите адрес!")
+        elif delivery.startswith('selfdelivery--'):
+            store = delivery[len('selfdelivery--'):]
+            if not Store.objects.filter(retailcrm_slug=store).exists():
+                self.add_error('delivery', u"Неизвестный склад!")
+        else:
+            self.add_error('delivery', u"Неизвестный способ доставки!")
 
 
 @transaction.atomic
@@ -118,8 +122,9 @@ def order_complete(request):
     # 4. Create on RetailCRM
     _order_det = _order_to_retail_crm(order)
 
-    # Run post-processing task
-    tasks.sync_order.delay(order.id)
+    # # Run post-processing task
+    # tasks.sync_order.delay(order.id)
+
     data['order_sent'] = True
     # needed for Universal Analytics / Yandex Metrika
     data['order_id'] = _order_det['order_id']
@@ -420,7 +425,8 @@ def _order_to_retail_crm(order):
     if order.data['discounts']['variable']:
         order_payload['discountPercent'] = order.data['discounts']['variable']
 
-    if order.data.get('delivery') == 'selfdelivery':
+    # if order.data.get('delivery') == 'selfdelivery':
+    if order.data.get('delivery').startswith('selfdelivery--'):
         order_payload['delivery']['code'] = 'self-delivery'
         order_payload['delivery']['address'] = {'text': u'м.Третьяковская, Большая Татарская 21с4.'}
         # order_payload['delivery']['cost'] = ...
