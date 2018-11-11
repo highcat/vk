@@ -222,35 +222,36 @@ $(function(){
                 self.onScroll(); // FIXME: somehow it won't work;
             },
           onScroll: function(){
-              var scrollTop = this.$el.scrollTop();
-              var widgetH = this.$el.innerHeight();
-              var contentH = this.$el.prop('scrollHeight');
-              if (widgetH >= contentH) {
-                return;
-              }
-              var tolerance = 50;
-              var bottomStrength = 1.0;
-              var topStrength = 1.0;
+              return; // тени скроллинга недоделаны
+              // var scrollTop = this.$el.scrollTop();
+              // var widgetH = this.$el.innerHeight();
+              // var contentH = this.$el.prop('scrollHeight');
+              // if (widgetH >= contentH) {
+              //   return;
+              // }
+              // var tolerance = 50;
+              // var bottomStrength = 1.0;
+              // var topStrength = 1.0;
 
-              var bottomScrollLeft = contentH - (scrollTop + widgetH);
-              if (bottomScrollLeft < tolerance) {
-                bottomStrength = bottomScrollLeft / tolerance;
-              }
-              var topScrollLeft = scrollTop;
-              if (topScrollLeft < tolerance) {
-                topStrength = topScrollLeft / tolerance;
-              }
-              var borderWidth = parseInt(this.$el.css('borderWidth'));
-              // FIXME somehow it won't work on FireFox
-              this.$('.shadow-overlay').css({
-                'top': this.$el.position().top+borderWidth+'px',
-                'left': this.$el.position().left+borderWidth+'px',                
-                'width': this.$el.innerWidth()+'px',
-                'height': this.$el.innerHeight()+'px', 
-                'box-shadow': (
-                  '0 -' + (70 * bottomStrength) + 'px 40px -50px rgba(0,0,0,.8) inset, ' + 
-                  '0px '+ (70 * topStrength) +'px 40px -50px rgba(0,0,0,.8) inset' ),
-              });
+              // var bottomScrollLeft = contentH - (scrollTop + widgetH);
+              // if (bottomScrollLeft < tolerance) {
+              //   bottomStrength = bottomScrollLeft / tolerance;
+              // }
+              // var topScrollLeft = scrollTop;
+              // if (topScrollLeft < tolerance) {
+              //   topStrength = topScrollLeft / tolerance;
+              // }
+              // var borderWidth = parseInt(this.$el.css('borderWidth'));
+              // // FIXME somehow it won't work on FireFox
+              // this.$('.shadow-overlay').css({
+              //   'top': this.$el.position().top+borderWidth+'px',
+              //   'left': this.$el.position().left+borderWidth+'px',                
+              //   'width': this.$el.innerWidth()+'px',
+              //   'height': this.$el.innerHeight()+'px', 
+              //   'box-shadow': (
+              //     '0 -' + (70 * bottomStrength) + 'px 40px -50px rgba(0,0,0,.8) inset, ' + 
+              //     '0px '+ (70 * topStrength) +'px 40px -50px rgba(0,0,0,.8) inset' ),
+              // });
             },
             hide: function(){
                 this.$el.addClass('hide');

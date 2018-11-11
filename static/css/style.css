@@ -682,11 +682,12 @@ a.cart-button:hover {
     overflow-y: auto;
     max-height: calc(100% - 55px);
 }
-.cart-widget .shadow-overlay {
-    position: fixed;
-    z-index: 1000 !important;
-    pointer-events: none;
-}
+/* тени скроллинга - недоделаны */
+/* .cart-widget .shadow-overlay { */
+/*     position: fixed; */
+/*     z-index: 1000 !important; */
+/*     pointer-events: none; */
+/* } */
 
 .cart {
     color: #1e1e1e!important;
