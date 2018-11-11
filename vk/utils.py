@@ -8,7 +8,7 @@ def GET_SITE_PREFS():
     if cache.get('site_prefs'):
         return cache.get('site_prefs')
 
-    from vk.models import SitePreferences    
+    from shop.models import SitePreferences
     try:
         obj = SitePreferences.objects.get(site__id=settings.SITE_ID)
     except SitePreferences.DoesNotExist:
