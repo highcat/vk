@@ -390,8 +390,10 @@ $(function(){
             updateDelivery: function(){
                 var val = this.$('[name=delivery]:checked').val() || ''; // NOT undefined
                 this.model.set({delivery: val});
-                this.$('.delivery-option').hide();
-                this.$('[data-d-type="'+val+'"]').show();
+                this.$('.delivery-option').removeClass('delivery-option--active');
+                this.$('.delivery-option[data-d-type="'+val+'"]').addClass('delivery-option--active');
+                this.$('.delivery-details').hide();
+                this.$('[data-d-type="'+val+'"] '+'.delivery-details').show();
             },
             collectData: function(){
                 var data = {};

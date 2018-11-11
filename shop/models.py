@@ -88,8 +88,9 @@ class ProductOffer(models.Model):
 
     
 class Store(models.Model):
-    name = models.CharField(max_length=200)
-    address = models.CharField(max_length=500)
+    name = models.CharField(max_length=200, verbose_name=u"Название")
+    address = models.CharField(max_length=500, verbose_name=u"Адрес")
+    work_hours = models.CharField(max_length=500, verbose_name=u"Часы работы")
     retailcrm_slug = models.CharField(max_length=200)
     has_kit_packer = models.BooleanField(default=False, verbose_name=u"Есть сотрудник, упаковывающий наборы")
     def __unicode__(self):

@@ -975,8 +975,15 @@ a.cart-buy-button_not:hover {
     margin-left: 10px !important;
 }
 
-.cart .delivery-option {
+.cart .delivery-details {
     max-width: 375px;
+}
+.cart .delivery-option {
+    padding: 5px 10px;    
+    border-radius: 5px;
+}
+.cart .delivery-option--active {
+    background-color: #f8e186;
 }
 .cart .field-delivery {
     margin-bottom: 0;

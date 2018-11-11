@@ -132,51 +132,59 @@
 
 
     <div class="form-group field-delivery">
-      <label class="control-label">
-        <input name="delivery" type="radio" value="selfdelivery--smarta-red-room" <% if (order.delivery=='selfdelivery--smarta-red-room'){ %>checked<% } %> >
-        самовывоз Перово
-      </label>
-      <div class="form-group delivery-option" data-d-type="selfdelivery--smarta-red-room">
-        Самовывоз с 10:00 до 21:00 по будням
-        <br><b>адрес: Москва, м.Перово, ул. Утренняя, 14к3</b>
-      </div>
-      
-      <br>
-      <label class="control-label">
-        <input name="delivery" type="radio" value="selfdelivery--polus-tretyak" <% if (order.delivery=='selfdelivery--polus-tretyak'){ %>checked<% } %> >
-        самовывоз Третьяковская
-      </label>
-      <div class="form-group delivery-option" data-d-type="selfdelivery--polus-tretyak">
-        Самовывоз с 08:00 до 18:00 без перерывов и выходных
-        <br><b>адрес: Москва, м.Третьяковская, Большая Татарская 21с4</b>
-      </div>
-      
-      <br>
-      <label class="control-label">
-        <input name="delivery" type="radio" value="delivery" <% if (order.delivery=='delivery'){ %>checked<% } %> >
-        доставка
-      </label>
-      <div class="form-group delivery-option" data-d-type="delivery">
-        <label class="control-label" for="cart-address">Адрес доставки</label>
-        <textarea type="text" name="contact_address" class="form-control" id="cart-address"
-                  placeholder="введите ваш адрес"
-                  required rows="3"><%= order.contact_address %></textarea>
+      <div class="delivery-option" data-d-type="selfdelivery--smarta-red-room">
+        <label class="control-label">
+          <input name="delivery" type="radio" value="selfdelivery--smarta-red-room" <% if (order.delivery=='selfdelivery--smarta-red-room'){ %>checked<% } %> >
+          самовывоз Перово
+        </label>
+        <div class="delivery-details">
+          Самовывоз с 10:00 до 21:00 по будням
+          <br><b>адрес: Москва, м.Перово, ул. Утренняя, 14к3</b>
+        </div>
       </div>
 
-      <br>
-      <label class="control-label">
-        <input name="delivery" type="radio" value="post" <% if (order.delivery=='post'){ %>checked<% } %> >
-        доставка почтой
-      </label>
-      <div class="form-group delivery-option" data-d-type="post">
-        <label class="control-label" for="cart-address">Адрес</label>
-        <textarea type="text" name="contact_address" class="form-control" id="cart-address"
-                  placeholder="введите ваш адрес, индекс и полное ФИО"
-                  required rows="3"><%= order.contact_address %></textarea>
+      <div class="delivery-option" data-d-type="selfdelivery--polus-tretyak">
+        <label class="control-label">
+          <input name="delivery" type="radio" value="selfdelivery--polus-tretyak" <% if (order.delivery=='selfdelivery--polus-tretyak'){ %>checked<% } %> >
+          самовывоз Третьяковская
+        </label>
+        <div class="delivery-details">
+          Самовывоз с 08:00 до 18:00 без перерывов и выходных
+          <br><b>адрес: Москва, м.Третьяковская, Большая Татарская 21с4</b>
+        </div>
       </div>
+      
+      <div class="delivery-option" data-d-type="delivery">
+        <label class="control-label">
+          <input name="delivery" type="radio" value="delivery" <% if (order.delivery=='delivery'){ %>checked<% } %> >
+          доставка
+        </label>
+        <div class="delivery-details">
+          <label class="control-label" for="cart-address">Адрес доставки</label>
+          <textarea type="text" name="contact_address" class="form-control" id="cart-address"
+                    placeholder="введите ваш адрес"
+                    required rows="3"><%= order.contact_address %></textarea>
+        </div>
+      </div>
+
+      {#
+      <div class="delivery-option" data-d-type="post">
+        <label class="control-label">
+          <input name="delivery" type="radio" value="post" <% if (order.delivery=='post'){ %>checked<% } %> >
+          доставка почтой
+        </label>
+        <div class="delivery-details">
+          <label class="control-label" for="cart-address">Почтовый адрес:</label>
+          <textarea type="text" name="contact_address" class="form-control" id="cart-address"
+                    placeholder="введите ваш адрес, индекс и полное ФИО"
+                    required rows="3"><%= order.contact_address %></textarea>
+        </div>
+      </div>
+      #}
     </div>
    
-    
+
+    <br>
     <div class="form-group">
       <input type="text" name="note" class="form-control" id="cart-time"
              placeholder="пожелания"

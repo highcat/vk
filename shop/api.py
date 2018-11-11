@@ -66,7 +66,7 @@ class OrderForm(forms.Form):
         elif delivery == 'delivery-post':
             if not contact_address:
                 self.add_error('contact_address', u"Введите адрес!")
-        elif delivery.startswith('selfdelivery--'):
+        elif delivery and delivery.startswith('selfdelivery--'):
             store = delivery[len('selfdelivery--'):]
             if not Store.objects.filter(retailcrm_slug=store).exists():
                 self.add_error('delivery', u"Неизвестный склад!")
@@ -122,8 +122,8 @@ def order_complete(request):
     # 4. Create on RetailCRM
     _order_det = _order_to_retail_crm(order)
 
-    # # Run post-processing task
-    # tasks.sync_order.delay(order.id)
+    # Run post-processing task
+    tasks.sync_order.delay(order.id)
 
     data['order_sent'] = True
     # needed for Universal Analytics / Yandex Metrika
