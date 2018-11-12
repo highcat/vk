@@ -93,6 +93,8 @@ class Store(models.Model):
     address = models.CharField(max_length=500, verbose_name=u"Адрес")
     work_hours = models.CharField(max_length=500, verbose_name=u"Часы работы")
     retailcrm_slug = models.CharField(max_length=200)
+    priority_for_courier = models.FloatField(default=50, verbose_name=u"Приоритет для доставки курьером")
+    priority_for_post = models.FloatField(default=50, verbose_name=u"Приоритет для отправки почтой")
     has_kit_packer = models.BooleanField(default=False, verbose_name=u"Есть сотрудник, упаковывающий наборы")
     def __unicode__(self):
         return u'{} [{}]'.format(self.name, self.retailcrm_slug)

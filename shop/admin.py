@@ -231,7 +231,15 @@ admin.site.register(ProductOrKitSelectorModelProxy, ProductOrKitSelectorAdmin)
 
 
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address', 'work_hours', 'retailcrm_slug', 'has_kit_packer')
+    list_display = (
+        'name',
+        'address',
+        'work_hours',
+        'retailcrm_slug',
+        'priority_for_courier',
+        'priority_for_post',
+        'has_kit_packer',
+    )
 
 admin.site.register(Store, StoreAdmin)
 
