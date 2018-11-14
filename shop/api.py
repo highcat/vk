@@ -28,6 +28,7 @@ from .models import Product, Order, PromoCode, AutoPromoCode, OperationalDay, St
 from . import tasks
 from .utils import _normalize_phone
 from .utils import paginate_retailcrm
+from . import logistics
 from shop.utils import SHOP_ID, BASE_API_URL
 
 from django import forms
@@ -334,52 +335,30 @@ def _order_to_retail_crm(order):
     # Groups back to list
     items = map(lambda x: x[0]['items'][0], sorted([(g, g['index']) for id, g in groups.iteritems()], key=lambda x: x[1]))
 
-    # Fetch offers counts
+
+    # Fetch offers counts by store
     offer_counts = {}
-    args = [
-        ('filter[offerActive]', "1"),
-    ]
-    for o_id in all_offers:
-        args.append(('filter[ids][]', o_id))
-    for data in paginate_retailcrm('/store/inventories', args):
+    for data in paginate_retailcrm('/store/inventories', [
+            ('filter[offerActive]', "1"),
+            ('filter[details]', "1"), # показать остатки по складам
+    ] + [('filter[ids][]', o_id) for o_id in all_offers]
+    ):
         for o in data['offers']:
-            offer_counts[o['id']] = o['quantity']
-
-    # Decide which offers to use; split if necessary
-    splitted_items = [] # (id, item)
-    for i in items:
-        if i['is_kit']:
-            i['selected_offer_id'] = i['offer_ids'][0]
-            # don't check count for kits
-            continue
-        offers = sorted([(oid, offer_counts[oid]) for oid in i['offer_ids']], key=lambda pair: pair[1])
-        count_left = i['count']
-        # start with lesser
-        for oid, o_count in offers:
-            if o_count == 0:
-                continue
-            if count_left <= o_count:
-                i['count'] = count_left
-                i['selected_offer_id'] = oid
-                count_left = 0
-                break
-            else:
-                new_item = deepcopy(i)
-                new_item['count'] = o_count
-                new_item['selected_offer_id'] = oid
-                splitted_items.append((i['id'], new_item))
-                count_left -= o_count
-        if count_left > 0:
-            p = Product.objects.get(id=i['id'])
-            if p.preorder or p.is_market_test:
-                i['selected_offer_id'] = offers[0][0] # first available offer id
-            else:
-                assert False, u"Not enough available count, probably website is not synchronized with CRM"
-    # insert splitted items
-    for id, new_i in splitted_items:
-        idx = max(loc for loc, val in enumerate(items) if val['id'] == id)
-        items.insert(idx+1, new_i)
-
+            offer_counts[o['id']] = {
+                'total_count': o['quantity']
+            }
+            for s in o['stores']:
+                offer_counts[o['id']][s['store']] = {
+                    'count': s['quantity'],
+                }
+                
+    pprint(offer_counts)
+    delivery_type = order.data.get('delivery') or ''    
+    # Подобрать товарные предложения так, чтобы они были с нужного склада
+    _offers_info = logistics.choose_offers(offer_counts, delivery_type, items)
+    items = _offers_info['items']
+    shipment_store = _offers_info['shipment_store']
+    
     # Finally - Send Order!
     order_payload = {
         'contragent': 'individual',
@@ -410,17 +389,16 @@ def _order_to_retail_crm(order):
         order_payload['discountPercent'] = order.data['discounts']['variable']
 
 
-    if order.data.get('delivery').startswith('selfdelivery--'):
-        store = Store.objects.get(retailcrm_slug=order.data['delivery'][len('selfdelivery--'):])
-        # shipmentStore - просто выставляет склад отгрузки. Не бронирует.
-        order_payload['shipmentStore'] = store.retailcrm_slug
+    if delivery_type.startswith('selfdelivery--'):
         order_payload['delivery']['code'] = 'self-delivery'
-        order_payload['delivery']['address'] = {'text': store.address}
-        # order_payload['delivery']['cost'] = ...
+        order_payload['delivery']['address'] = {'text': shipment_store.address}
+    elif delivery_type == 'delivery-post':
+        order_payload['delivery']['code'] = 'russian-post'
+        order_payload['delivery']['address'] = {'text': order.data['contact_address']}
     else:
         order_payload['delivery']['code'] = 'some-delivery'
         order_payload['delivery']['address'] = {'text': order.data['contact_address']}
-        # order_payload['delivery']['cost'] = ...
+        order_payload['shipmentStore'] = shipment_store.retailcrm_slug
 
 
     ua_items = []

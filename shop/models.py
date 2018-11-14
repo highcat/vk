@@ -87,8 +87,21 @@ class ProductOffer(models.Model):
     offer_id = models.IntegerField() # FIXME retailcrm_offer_id
 
 
+class StoreActiveManager(models.Manager):
+    def get_queryset(self):
+        return (
+            super(StoreActiveManager, self)
+            .get_queryset()
+            .filter(active=True)
+        )
+    
+
 class Store(models.Model):
+    objects = StoreActiveManager()
+    objects_active = models.Manager()
+    
     name = models.CharField(max_length=200, verbose_name=u"Название")
+    active = models.BooleanField(default=True, verbose_name=u"Активен")
     cart_name = models.CharField(max_length=200, verbose_name=u"Короткое название для корзины")
     address = models.CharField(max_length=500, verbose_name=u"Адрес")
     work_hours = models.CharField(max_length=500, verbose_name=u"Часы работы")

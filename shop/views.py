@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
+from django.db import transaction
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Section, Order, Article
 from vk.utils import GET_SITE_PREFS
+from .models import Product, Section, Order, Article
+from .sync import sync_prices, sync_new_items, sync_fields, collect_sync_data
+
 
 def index(request):
     return HttpResponseRedirect(GET_SITE_PREFS().main_page_redirect)
@@ -76,11 +80,6 @@ def article_list(request):
         'articles': Article.objects.filter(enabled=True).order_by('-created_at'),
         'menu': 'articles',
     })
-
-
-from django.db import transaction
-from django.contrib.auth.decorators import login_required
-from .sync import sync_prices, sync_new_items, sync_fields, collect_sync_data
 
 
 @login_required()

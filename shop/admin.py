@@ -233,6 +233,7 @@ admin.site.register(ProductOrKitSelectorModelProxy, ProductOrKitSelectorAdmin)
 class StoreAdmin(admin.ModelAdmin):
     list_display = (
         'name',
+        'active',
         'address',
         'work_hours',
         'retailcrm_slug',
