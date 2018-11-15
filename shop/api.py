@@ -135,12 +135,6 @@ def order_complete(request):
     assert data['order_id']
     return Response(data, status.HTTP_200_OK) # XXX error response returns 200 too
 
-    # # FIXME remove it (telegram debug)
-    # tasks.sync_order(order.id)
-    # data['total_price'] = 1000
-    # data['order_id'] = 10
-    # return Response(data, status.HTTP_200_OK) # XXX error response returns 200 too
-
 
 
 @api_view(['POST'])
