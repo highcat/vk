@@ -1493,26 +1493,41 @@ div.item-block .item-admin-marks
 
 
 /* ------------------------------ Operator ------------------------------ */
-.operator-panel {
+.manager-panel {
     position: fixed;
     top: 50px;
     left: 0px;
-    background-color: #eee8;
+    background-color: #eeee;
     border-radius: 10px;
     padding: 0 5px;
 }
-.operator-panel > ul {
+.manager-panel > ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-.operator-panel > ul > li {
+.manager-panel > ul > li {
     margin-bottom: 10px;
     text-align: center;
 }
-.operator-panel > h2 {
+.manager-panel > h2 {
     font-size: 20px;
     text-align: center;
+}
+.manager-panel .manager-panel_control .close {
+}
+.manager-panel .manager-panel_control .open {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: -20px;
+    font-size: 25px;
+    font-weight: bold;
+    color: grey;
+    background-color: #eeee;
+    width: 20px;
+    text-align: center;
+    border-radius: 0 10px 10px 0;
 }
 
 /* ------------------------------ Other ------------------------------ */

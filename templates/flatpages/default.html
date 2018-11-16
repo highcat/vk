@@ -1,11 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if user.is_authenticated() and (user.is_superuser or user|has_group('content-managers')) %}
-  <div class="admin-flat-page-floating">
-    <a href="/admin/flatpages/flatpage/{{flatpage.id}}/change/">Редактировать страницу</a>
-  </div>
-{% endif %}
 <div id="contents">
   <div id="flat-page">
     {{ flatpage.content }}

@@ -1,6 +1,10 @@
 {% if user.is_staff %}
-  <div class="operator-panel">
-    <h2>Панель оператора</h2>
+  <div class="manager-panel">
+    <div class="manager-panel_control">
+      <span class="close">x</span>
+      <span class="open">&gt;</span>      
+    </div>
+    <h2>Панель менеджера</h2>
     <ul>
       <li>
         <a href="/section/point-of-sale/" type="button" class="btn btn-warning btn-lg">
@@ -12,6 +16,16 @@
           Открыть CRM
         </a>
       </li>
+
+      {% if flatpage %}
+        {% if user.is_authenticated() and (user.is_superuser or user|has_group('content-managers')) %}
+          <li>
+            <a class='btn btn-primary btn-sm' href="/admin/flatpages/flatpage/{{flatpage.id}}/change/">
+              Редактировать страницу
+            </a>
+          </li>
+        {% endif %}
+      {% endif %}
 
       <li style="display: none">
         <!-- Button trigger modal -->
