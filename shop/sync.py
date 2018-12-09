@@ -199,6 +199,8 @@ def sync_prices(obj_ids, new_data):
     for kit in Product.objects.filter(is_product_kit=True):
         max_count = 9999
         for ki in kit.kit_items.all():
+            if ki.count <= 0:
+                continue
             p = Product.objects.get(id=ki.product.id)
             available = p.count_available
             if p.preorder != None or p.is_market_test:
