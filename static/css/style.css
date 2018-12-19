@@ -1492,8 +1492,8 @@ div.item-block .item-admin-marks
 }
 
 
-/* ------------------------------ Operator ------------------------------ */
-.manager-panel {
+/* ------------------------------ Side panel for Operator & Users ------------------------------ */
+.side-panel {
     position: fixed;
     top: 50px;
     left: 0px;
@@ -1501,22 +1501,22 @@ div.item-block .item-admin-marks
     border-radius: 10px;
     padding: 0 5px;
 }
-.manager-panel > ul {
+.side-panel > ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-.manager-panel > ul > li {
+.side-panel > ul > li {
     margin-bottom: 10px;
     text-align: center;
 }
-.manager-panel > h2 {
+.side-panel > h2 {
     font-size: 20px;
     text-align: center;
 }
-.manager-panel .manager-panel_control .close {
+.side-panel .side-panel_control .close {
 }
-.manager-panel .manager-panel_control .open {
+.side-panel .side-panel_control .open {
     display: none;
     position: absolute;
     top: 5px;
@@ -1529,6 +1529,20 @@ div.item-block .item-admin-marks
     text-align: center;
     border-radius: 0 10px 10px 0;
 }
+
+.side-panel--user {
+    padding: 10px;
+    background-color: yellow;
+}
+.side-panel--user .side-panel_control .open {
+    background-color: yellow;
+}
+.side-panel--user.shift-bottom {
+    top: 250px;    
+}
+.side-panel--manager {
+}
+
 
 /* ------------------------------ Other ------------------------------ */
 

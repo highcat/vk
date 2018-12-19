@@ -9,40 +9,47 @@ $(function(){
     }
   });
 
-  // manager's panel
-  var PANEL_HIDE_LEN = $('.manager-panel').outerWidth() - 5;
-  var myStorage = window.localStorage;
 
-  if (_.isUndefined(myStorage.getItem('managerPanelOpened'))) {
-    myStorage.setItem('managerPanelOpened', 'yes');
-  }
-  _l(myStorage.getItem('managerPanelOpened'));
-  
-  var onClosePanel = function(){
-    $('.manager-panel_control .close').hide();
-    $('.manager-panel_control .open').show();
-    myStorage.setItem('managerPanelOpened', '');
-  };
-  var closePanel = function(){
-    $('.manager-panel').animate({left: '-'+PANEL_HIDE_LEN+'px'}, 200, 'swing', onClosePanel);
-  };
-  var onShowPanel = function(){
-    $('.manager-panel_control .close').show();
-    $('.manager-panel_control .open').hide();
-    myStorage.setItem('managerPanelOpened', 'yes');
-  };
-  var showPanel = function(){
-    $('.manager-panel').animate({left: '0px'}, 200, 'swing', onShowPanel);
-  };
-  
-  $('.manager-panel_control .close').on('click', closePanel);
-  $('.manager-panel_control .open').on('click', showPanel);
+  _.each($('.side-panel'), function(el){
+    var $el = $(el);
+    // manager's panel
+    var PANEL_HIDE_LEN = $el.outerWidth() - 5;
+    var myStorage = window.localStorage;
+    var panelId = $el.data('panel-id');
+    var defaultOpened = $el.data('default-opened') || null;
+    _l(defaultOpened)
 
-  var v = myStorage.getItem('managerPanelOpened');
-  if (v) {
-    onShowPanel();
-  } else {
-    $('.manager-panel').css({left: '-'+PANEL_HIDE_LEN+'px'});
-    onClosePanel();
-  }
+    if (!(myStorage.getItem('managerPanelOpened-'+panelId))) {
+      myStorage.setItem('managerPanelOpened-'+panelId, defaultOpened);
+    }
+    _l('---', myStorage.getItem('managerPanelOpened-'+panelId));
+    
+    var onClosePanel = function(){
+      $el.find('.side-panel_control .close').hide();
+      $el.find('.side-panel_control .open').show();
+      myStorage.setItem('managerPanelOpened-'+panelId, 'no');
+    };
+    var closePanel = function(){
+      $el.animate({left: '-'+PANEL_HIDE_LEN+'px'}, 200, 'swing', onClosePanel);
+    };
+    var onShowPanel = function(){
+      $el.find('.side-panel_control .close').show();
+      $el.find('.side-panel_control .open').hide();
+      myStorage.setItem('managerPanelOpened-'+panelId, 'yes');
+    };
+    var showPanel = function(){
+      $el.animate({left: '0px'}, 200, 'swing', onShowPanel);
+    };
+    
+    $el.find('.side-panel_control .close').on('click', closePanel);
+    $el.find('.side-panel_control .open').on('click', showPanel);
+
+    var v = myStorage.getItem('managerPanelOpened-'+panelId);
+    if (v == 'yes') {
+      onShowPanel();
+    } else {
+      $el.css({left: '-'+PANEL_HIDE_LEN+'px'});
+      onClosePanel();
+    }
+  });
 });
