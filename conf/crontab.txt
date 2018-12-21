@@ -3,7 +3,7 @@
 
 # Put admin's email here
 MAILTO="highcatland@gmail.com"
-PATH="/home/arixez/bin:/home/arixez/ve/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+PATH="/home/vkusnyan/bin:/home/vkusnyan/ve/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
 
 # m h  dom mon dow   command
     
@@ -12,8 +12,8 @@ PATH="/home/arixez/bin:/home/arixez/ve/bin:/usr/local/sbin:/usr/local/bin:/usr/s
 * * * * *  ~/supervisord.sh
 
 # Retry orders, which has failed to sync normally
-* * * * *  ~/in_ve python ~/vk/manage.py retry-process-orders >> /dev/null
-* * * * *  ~/in_ve python ~/vk/manage.py sync-with-retailcrm >> /dev/null
+* * * * *  ~/in_ve nice ~/vk/manage.py retry-process-orders >> /dev/null
+* * * * *  ~/in_ve nice ~/vk/manage.py sync-with-retailcrm >> /dev/null
 
 # update subscribers, etc
-* * * * *  ~/in_ve python ~/vk/manage.py telegram-bot-update >> /dev/null
+* * * * *  ~/in_ve nice ~/vk/manage.py telegram-bot-update >> /dev/null
