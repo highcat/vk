@@ -79,11 +79,13 @@ class ProductKitItemInline(SortableInlineAdminMixin, admin.TabularInline):
     readonly_fields = ('count_available',)
     def count_available(self, obj):
         left = obj.product.count_available
-        packs_left = obj.product.count_available / obj.count
+        packs_left = obj.product.count_available / obj.count if obj.count > 0 else float('inf')
         if packs_left == 0:
             return mark_safe(u'<span style="background-color: red; padding: 10px;">{} шт: НЕТ В НАЛИЧИИ</span>'.format(left))
         if packs_left < 4:
             return mark_safe(u'<span style="background-color: yellow; padding: 10px;">{} шт: заканчивается</span>'.format(left))
+        if packs_left == float('inf'):
+            return mark_safe(u'<span style="background-color: yellow; padding: 10px;">ноль продуктов в наборе???</span>'.format(left))
         return mark_safe(u'<span style="background-color: lightgreen; padding: 10px;">{} шт на складе</span>'.format(left))
             
 
