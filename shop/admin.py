@@ -85,7 +85,7 @@ class ProductKitItemInline(SortableInlineAdminMixin, admin.TabularInline):
         if packs_left < 4:
             return mark_safe(u'<span style="background-color: yellow; padding: 10px;">{} шт: заканчивается</span>'.format(left))
         if packs_left == float('inf'):
-            return mark_safe(u'<span style="background-color: yellow; padding: 10px;">ноль продуктов в наборе???</span>'.format(left))
+            return mark_safe(u'<span style="background-color: #ff7cf7; padding: 10px;">ноль продуктов в наборе???</span>'.format(left))
         return mark_safe(u'<span style="background-color: lightgreen; padding: 10px;">{} шт на складе</span>'.format(left))
             
 
