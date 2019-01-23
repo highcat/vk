@@ -2,7 +2,7 @@
 # This is crontab file for PROD tier.
 
 # Put admin's email here
-MAILTO="highcatland@gmail.com"
+MAILTO="italexlokk@gmail.com"
 PATH="/home/vkusnyan/bin:/home/vkusnyan/ve/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
 
 # m h  dom mon dow   command
