@@ -2,15 +2,20 @@
 <script type="text/javascript" src="//vk.com/js/api/openapi.js?143"></script>
 
 {% if settings.PROFILE == 'PROD' %}
-<!-- VK Widget -->
-<div id="vk_community_messages"></div>
-<script type="text/javascript">
-  VK.Widgets.CommunityMessages(
-  "vk_community_messages",
-  109882535,
-  {
-   widgetPosition: "left",
-   tooltipButtonText: "Появились вопросы? Напиши Вкусняну!"
-  });
-</script>
+  <!-- VK Widget -->
+{# Отключен. Алексу не нравится, т.к. пока виджет
+  не загрузится, корзина не работает.
+  А у Алекса забанен весь Вконтакт.
+  
+  <div id="vk_community_messages"></div>
+  <script type="text/javascript">
+   VK.Widgets.CommunityMessages(
+     "vk_community_messages",
+     109882535,
+     {
+       widgetPosition: "left",
+       tooltipButtonText: "Появились вопросы? Напиши Вкусняну!"
+     });
+  </script>
+#}
 {% endif %}
