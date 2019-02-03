@@ -28,6 +28,9 @@ class Product(models.Model):
 
     short_name = models.CharField(max_length=300, verbose_name=u"Имя", help_text="основное имя, для витрины")
     short_info = models.CharField(max_length=100)
+    search_text = models.CharField(max_length=1000, blank=True, help_text="Дополнительный текст для поиска.")
+    hashtags = models.CharField(max_length=1000, blank=True, help_text="Хэштэги, через запятую.")
+    
     info2 = models.CharField(max_length=300, blank=True, verbose_name=u"Инфо 2")
     slug = models.CharField(max_length=40, blank=True)
     preview = models.ImageField(upload_to="product-previews")

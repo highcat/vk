@@ -9,6 +9,27 @@ from .models import Product, Section, Order, Article
 from vk.utils import GET_SITE_PREFS
 
 def index(request):
+    search = request.GET.get('s')
+    if search:
+        qs_products = Product.objects.filter(
+            Q(short_name__icontains=search) | # TODO use fulltext seach?
+            Q(info2__icontains=search) |
+            Q(search_text__icontains=search) |
+            Q(hashtags__icontains=search),
+            # Q(description_html__icontains=search),
+            retailcrm_id__isnull=False
+        )
+        items = (
+            list(qs_products.filter(
+                Q(in_stock=True) | Q(preorder__isnull=False) | Q(is_market_test=True)
+            ))
+            + list(qs_products.filter(in_stock=False, preorder__isnull=True, is_market_test=False))
+        )
+        return render(request, 'section.html', {
+            'section': get_object_or_404(Section, slug='90e'),
+            'items': items,
+        })
+    
     return HttpResponseRedirect(GET_SITE_PREFS().main_page_redirect)
 
 

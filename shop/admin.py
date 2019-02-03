@@ -104,7 +104,9 @@ class ProductAdmin_Base(admin.ModelAdmin):
         # 
         'short_name',
         'short_info',
-        'info2',        
+        'info2',
+        'hashtags',
+        'search_text',        
         'preview',
         'overlay_image',
         #
@@ -144,6 +146,8 @@ class ProductAdmin_Base(admin.ModelAdmin):
         lambda o: u'{} - {}'.format(o.short_name, o.short_info),
         'article',
         'info2',
+        'hashtags',
+        'search_text',        
         'retailcrm_link',
         'is_market_test',
         'price',
