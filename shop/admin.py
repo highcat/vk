@@ -148,7 +148,7 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'article',
         'info2',
         'hashtags',
-        'search_text',
+        'exclude_from_search',
         'search_text',
         'retailcrm_link',
         'is_market_test',
