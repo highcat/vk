@@ -106,6 +106,7 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'short_info',
         'info2',
         'hashtags',
+        'exclude_from_search',
         'search_text',        
         'preview',
         'overlay_image',

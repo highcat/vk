@@ -17,7 +17,8 @@ def index(request):
             Q(search_text__icontains=search) |
             Q(hashtags__icontains=search),
             # Q(description_html__icontains=search),
-            retailcrm_id__isnull=False
+            retailcrm_id__isnull=False,
+            exclude_from_search=False,
         )
         items = (
             list(qs_products.filter(
