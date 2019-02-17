@@ -92,7 +92,7 @@ def order_complete(request):
         for key, value in form.errors.items():
             errors[key] = value.as_text()
     #.. and update some fields
-    data['contact_email'] = form.cleaned_data['contact_email']
+    data['contact_email'] = form.cleaned_data.get('contact_email', '')
     data['contact_phone'] = _normalize_phone(data['contact_phone']) # FIXME put to form
     is_by_operator = request.user.is_authenticated() and request.user.groups.filter(name='operators').exists()
     if not is_by_operator:
