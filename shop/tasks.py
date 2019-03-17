@@ -60,7 +60,7 @@ def book_order(order_id):
 
 def telegram_bot_update_recipients():
     for bot_model in TelegramBot.objects.all():
-        bot = telepot.Bot(bot_model.api_key)
+        bot = telepot.Bot(bot_model.api_key.encode('utf-8')) # telepot's bug. If it's unicode, it won't accept unicode strings for sending.
         msgs = bot.getUpdates(offset=bot_model.updates_offset)
         offset = bot_model.updates_offset
         for m in msgs:
@@ -74,15 +74,13 @@ def telegram_bot_update_recipients():
                     r.username = m['message']['from'].get('username', '')
                     r.save()
                     if created:
-                        # TODO XXX unicode messages give errors
-                        # bot.sendMessage(r.recipient_id, u"Авторизация успешна. Теперь вы будете получать заказы в этот чат.", parse_mode='markdown')
-                        bot.sendMessage(r.recipient_id, u"Authorized successfuly", parse_mode='markdown')
+                        bot.sendMessage(r.recipient_id, u"Авторизация успешна. Теперь вы будете получать заказы в этот чат.", parse_mode='markdown')
                 else:
-                    bot.sendMessage(r.recipient_id, u"You're not authorized. Please enter password.", parse_mode='markdown')
+                    bot.sendMessage(r.recipient_id, u"Вы не авторизованы. Введите пароль.", parse_mode='markdown')
             if m['message'].get('text', '').strip() == 'unsubscribe':
-                bot.sendMessage(r.recipient_id, u"Deleting you from subscribers...", parse_mode='markdown')
+                bot.sendMessage(r.recipient_id, u"Удаляю ваз из подписчиков...", parse_mode='markdown')
                 r.delete()
-                bot.sendMessage(r.recipient_id, u"unsubscribe successful.", parse_mode='markdown')
+                bot.sendMessage(r.recipient_id, u"Удаление успешно.", parse_mode='markdown')
                 
         TelegramBot.objects.filter(id=bot_model.id).update(updates_offset=offset)
 
@@ -92,15 +90,13 @@ def telegram_bot_send(order):
     for bot_model in TelegramBot.objects.all():
         bot = telepot.Bot(bot_model.api_key)
         data = order.data
-        # TODO XXX unicode messages give errors
-        # msg = u'Заказ с Vkusnyan.ru на {price}р'.format(price=data['total_price'])
-        msg = 'Vkusnyan.ru order, {price} RUB'.format(price=data['total_price'])
+        msg = u'Заказ с Vkusnyan.ru на {price}р'.format(price=data['total_price'])
         for rec in TelegramBotRecipient.objects.filter(bot=bot_model):
             try:
                 if rec.authorized:
                     bot.sendMessage(rec.recipient_id, msg, parse_mode='markdown')
                 else:
-                    bot.sendMessage(rec.recipient_id, u"You're not authorized. Please enter password.", parse_mode='markdown')
+                    bot.sendMessage(rec.recipient_id, u"Вы не авторизованы. Введите пароль.", parse_mode='markdown')
             except TELEPOT_EXCEPTIONS_TO_SKIP:
                 log.exception("unable to send to recipient")
 
@@ -113,4 +109,4 @@ def telegram_bot_message(msg):
             if rec.authorized:
                 bot.sendMessage(rec.recipient_id, msg, parse_mode='markdown')
             else:
-                bot.sendMessage(rec.recipient_id, u"You're not authorized. Please enter password.", parse_mode='markdown')
+                bot.sendMessage(rec.recipient_id, u"Вы не авторизованы. Введите пароль.", parse_mode='markdown')
