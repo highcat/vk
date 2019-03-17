@@ -88,7 +88,7 @@ def telegram_bot_update_recipients():
 
 def telegram_bot_send(order):
     for bot_model in TelegramBot.objects.all():
-        bot = telepot.Bot(bot_model.api_key)
+        bot = telepot.Bot(bot_model.api_key.encode('utf-8')) # telepot's bug. If it's unicode, it won't accept unicode strings for sending.
         data = order.data
         msg = u'Заказ с Vkusnyan.ru на {price}р'.format(price=data['total_price'])
         for rec in TelegramBotRecipient.objects.filter(bot=bot_model):
@@ -104,7 +104,7 @@ def telegram_bot_send(order):
 
 def telegram_bot_message(msg):
     for bot_model in TelegramBot.objects.all():
-        bot = telepot.Bot(bot_model.api_key)
+        bot = telepot.Bot(bot_model.api_key.encode('utf-8')) # telepot's bug. If it's unicode, it won't accept unicode strings for sending.
         for rec in TelegramBotRecipient.objects.filter(bot=bot_model):
             if rec.authorized:
                 bot.sendMessage(rec.recipient_id, msg, parse_mode='markdown')
