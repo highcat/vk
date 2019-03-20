@@ -37,15 +37,15 @@ class ProductForm(forms.ModelForm):
         help_text=u"HTML будет вставлен как есть."
     )
     page_title = forms.CharField(
-        required=False, widget=forms.TextInput(attrs={'size': '40'}),
+        required=False, widget=forms.TextInput(attrs={'size': '100'}),
         label="Page title",
     )
     page_description = forms.CharField(
-        required=False, widget=forms.TextInput(attrs={'size': '100'}),
+        required=False, widget=forms.Textarea(attrs={'style': 'width: 50em; height:6em;'}),
         label="Мета-тег description на странице",
     )
     page_keywords = forms.CharField(
-        required=False, widget=forms.TextInput(attrs={'size': '100'}),
+        required=False, widget=forms.Textarea(attrs={'style': 'width: 50em; height:6em;'}),
         label="Мета-тег keywords на странице",
     )
 
