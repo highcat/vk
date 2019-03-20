@@ -36,9 +36,18 @@ class ProductForm(forms.ModelForm):
         label=u"HTML страницы продукта",
         help_text=u"HTML будет вставлен как есть."
     )
-    page_title = forms.CharField(required=False, widget=forms.TextInput(attrs={'size': '40'}))
-    page_description = forms.CharField(required=False, widget=forms.TextInput(attrs={'size': '100'}))
-    page_keywords = forms.CharField(required=False, widget=forms.TextInput(attrs={'size': '100'}))
+    page_title = forms.CharField(
+        required=False, widget=forms.TextInput(attrs={'size': '40'}),
+        label="Page title",
+    )
+    page_description = forms.CharField(
+        required=False, widget=forms.TextInput(attrs={'size': '100'}),
+        label="Мета-тег description на странице",
+    )
+    page_keywords = forms.CharField(
+        required=False, widget=forms.TextInput(attrs={'size': '100'}),
+        label="Мета-тег keywords на странице",
+    )
 
     # скрытое поле, форсируем значение для каждой таблицы
     is_product_kit = forms.BooleanField(required=False, widget=forms.HiddenInput())
@@ -117,11 +126,11 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'best_before_1',
         'best_before_2',
         #
-        'page_title',        
-        'description_html',
-        #       
+        'page_title',
         'page_description',
         'page_keywords',
+        #       
+        'description_html',
         #
         'retailcrm_id',
         'price',
