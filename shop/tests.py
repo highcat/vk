@@ -15,7 +15,9 @@ def test():
     eq_(_normalize_phone('8 (985) 111-55-16'), '+79851115516')
     eq_(_normalize_phone('(985) 111-55-16'), '+79851115516')
 
-    
+    # буква З вместо тройки
+    # eq_(_normalize_phone('89045З7З544'), '+79045З7З544')
+    eq_(_normalize_phone('89045373544'), '+79045373544')    
     
     # bad numbers
     eq_(_normalize_phone('51115516'), '51115516')
