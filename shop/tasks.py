@@ -15,6 +15,7 @@ from . import logistics
 TELEPOT_EXCEPTIONS_TO_SKIP = (
     telepot_exception.BotWasKickedError,
     telepot_exception.BotWasBlockedError,
+    telepot_exception.TelegramError, # generic Telegram error FIXME?
 )
 
 
