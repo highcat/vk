@@ -25,11 +25,12 @@ from shop.widgets import HtmlEditor
 
 admin.site.unregister(Site)
 
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = ProductImage
         exclude = ('slug',)
-        
+
     description_html = forms.CharField(
         widget=HtmlEditor(attrs={'style': 'width: 90%; height: 100%;'}),
         required=False,
@@ -61,6 +62,7 @@ class ProductKitForm(ProductForm):
     def clean_is_product_kit(self):
         return True
 
+
 class ProductOrKitSelectorForm(ProductForm):
     is_product_kit = forms.BooleanField( # Видимое
         required=False,
@@ -74,11 +76,13 @@ class ProductOrKitSelectorForm(ProductForm):
 class ProductImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = ProductImage
 
+
 class ProductKitItemForm(forms.ModelForm):
     class Meta:
         model = ProductKitItem
         exclude = []
     product = AutoCompleteSelectField('product', label="", help_text=u"Поиск по названию", required=True)
+
 
 from django.utils.safestring import mark_safe
 class ProductKitItemInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -108,23 +112,26 @@ class ProductAdmin_Base(admin.ModelAdmin):
     model = Product
     exclude = ('slug',)
     fields = (
+        # sorted by usage frequency
+        'short_name',
+        'preview',        
+        # 
+        'is_new',
+        'preorder',
+        'best_before_1',
+        'best_before_2',
+        # 
         'retailcrm_link',
         'article',
         # 
-        'short_name',
         'short_info',
         'info2',
         'hashtags',
         'exclude_from_search',
-        'search_text',        
-        'preview',
+        'search_text',
         'overlay_image',
         #
-        'is_new',
         'is_market_test',
-        'preorder',        
-        'best_before_1',
-        'best_before_2',
         #
         'page_title',
         'page_description',
@@ -193,11 +200,14 @@ class ProductAdmin_Normal(ProductAdmin_Base):
             .filter(is_product_kit=False)
         )
 
+
 class ProductKitModelProxy(Product):
     class Meta:
         proxy = True
         verbose_name = u"Набор"
         verbose_name_plural = u"Наборы"
+
+
 class ProductAdmin_Kits(ProductAdmin_Base):
     form = ProductKitForm
     readonly_fields = ProductAdmin_Base.readonly_fields + (
@@ -213,6 +223,7 @@ class ProductAdmin_Kits(ProductAdmin_Base):
             .get_queryset(request)
             .filter(is_product_kit=True)
         )
+
 
 class ProductOrKitSelectorModelProxy(Product):
     class Meta:
