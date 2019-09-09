@@ -118,10 +118,10 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'short_name',
         'preview',
         # 
-        'is_new',
         'preorder',
         'best_before_1',
         'best_before_2',
+        'is_new',
         # 
         'article',
         # 
