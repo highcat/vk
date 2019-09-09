@@ -113,15 +113,16 @@ class ProductAdmin_Base(admin.ModelAdmin):
     exclude = ('slug',)
     fields = (
         # sorted by usage frequency
+        'retailcrm_link',
+        # 
         'short_name',
-        'preview',        
+        'preview',
         # 
         'is_new',
         'preorder',
         'best_before_1',
         'best_before_2',
         # 
-        'retailcrm_link',
         'article',
         # 
         'short_info',
