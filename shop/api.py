@@ -356,7 +356,7 @@ def _order_to_retail_crm(order):
             i['selected_offer_id'] = i['offer_ids'][0]
             # don't check count for kits
             continue
-        if i['from_kit'] and i['from_kit'].preorder:
+        if i['from_kit'] and i['from_kit']['preorder']:
             i['selected_offer_id'] = i['offer_ids'][0]
             # don't check count for kits
             continue
