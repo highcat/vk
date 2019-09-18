@@ -257,11 +257,10 @@ def _order_update(data):
     return data
 
 
-
 def _order_to_retail_crm(order):
     u"""Syncs order to RetailCRM.
     No transactions inside.
-    
+
     Assuming data is already checked for correctness.
     Just throw error, if it's not correct.
     """
@@ -291,7 +290,7 @@ def _order_to_retail_crm(order):
                     'price': 0,
                     'discount_price': 0,
                     'sum': 0,
-                    'from_kit': True,
+                    'from_kit': dict(id=p.id, preorder=p.preorder),
                     'is_kit': False
                 })
                 all_offers |= set(kit_item.product.retailcrm_offers.values_list('offer_id', flat=True))
@@ -313,6 +312,15 @@ def _order_to_retail_crm(order):
                 total_sum += (i['discount_price'] or i['price']) * i['count']
                 total_count += i['count']
             i_1st = g['items'][0]
+
+            i_from_kit_list = ([
+                itm for itm in g['items']
+                # preordered kit => assume all items are preordered
+                if (itm['from_kit'] and itm['from_kit']['preorder'])
+            ] or [
+                itm for itm in g['items']
+                if itm['from_kit']
+            ])
             g['items'] = [{
                 'id': i_1st['id'],
                 'name': i_1st['name'],
@@ -320,7 +328,8 @@ def _order_to_retail_crm(order):
                 'offer_ids': i_1st['offer_ids'],
                 'count': total_count,
                 'sum': total_sum,
-                'from_kit': True, # one of items from kit => assume from kit
+                # one of items from kit => assume from kit
+                'from_kit': i_from_kit_list[0] if i_from_kit_list else False,
                 'is_kit': False
                 # Not used:
                 # 'price': 0,
@@ -341,9 +350,13 @@ def _order_to_retail_crm(order):
             offer_counts[o['id']] = o['quantity']
 
     # Decide which offers to use; split if necessary
-    splitted_items = [] # (id, item)
+    splitted_items = []  # (id, item)
     for i in items:
         if i['is_kit']:
+            i['selected_offer_id'] = i['offer_ids'][0]
+            # don't check count for kits
+            continue
+        if i['from_kit'] and i['from_kit'].preorder:
             i['selected_offer_id'] = i['offer_ids'][0]
             # don't check count for kits
             continue
@@ -367,13 +380,13 @@ def _order_to_retail_crm(order):
         if count_left > 0:
             p = Product.objects.get(id=i['id'])
             if p.preorder or p.is_market_test:
-                i['selected_offer_id'] = offers[0][0] # first available offer id
+                i['selected_offer_id'] = offers[0][0]  # first available offer id
             else:
                 assert False, u"Not enough available count, probably website is not synchronized with CRM"
     # insert splitted items
     for id, new_i in splitted_items:
         idx = max(loc for loc, val in enumerate(items) if val['id'] == id)
-        items.insert(idx+1, new_i)
+        items.insert(idx + 1, new_i)
 
     # Finally - Send Order!
     order_payload = {

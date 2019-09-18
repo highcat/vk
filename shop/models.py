@@ -31,7 +31,7 @@ class Product(models.Model):
     search_text = models.CharField(max_length=1000, blank=True, help_text="Дополнительный текст для поиска.")
     exclude_from_search = models.BooleanField(default=False, help_text="Исключить из поиска.")
     hashtags = models.CharField(max_length=1000, blank=True, help_text="Хэштэги, через запятую.")
-    
+
     info2 = models.CharField(max_length=300, blank=True, verbose_name=u"Инфо 2")
     slug = models.CharField(max_length=40, blank=True)
     preview = models.ImageField(upload_to="product-previews")
