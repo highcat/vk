@@ -329,7 +329,7 @@ def _order_to_retail_crm(order):
                 'count': total_count,
                 'sum': total_sum,
                 # one of items from kit => assume from kit
-                'from_kit': i_from_kit_list[0] if i_from_kit_list else False,
+                'from_kit': i_from_kit_list[0]['from_kit'] if i_from_kit_list else False,
                 'is_kit': False
                 # Not used:
                 # 'price': 0,
