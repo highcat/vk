@@ -1558,7 +1558,7 @@ div.item-block .item-admin-marks
     background-color: yellow;
 }
 .side-panel--user.shift-bottom {
-    top: 250px;    
+    top: 197px;    
 }
 .side-panel--manager {
 }
@@ -1899,6 +1899,14 @@ a.button:hover {
     }
 }
 
+/* ------------------------------ Side panel for Operator & Users ------------------------------ */
+
+.side-panel--user.shift-bottom {
+    top: 223px;    
+}
+
+
+
 /* iPads (вертикальная) ----------- */
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
 /* стили */
@@ -1963,6 +1971,11 @@ a.button:hover {
     .item-img {
 	margin-left: 20px;
     }
+}
+/* ------------------------------ Side panel for Operator & Users ------------------------------ */
+
+.side-panel--user.shift-bottom {
+    top: 233px;    
 }
 
 /* iPads (горизонтальная) ----------- */
@@ -2038,7 +2051,11 @@ a.button:hover {
 	margin-right: 290px;
     }
 }
+/* ------------------------------ Side panel for Operator & Users ------------------------------ */
 
+.side-panel--user.shift-bottom {
+    top: 197px;    
+}
 
 
 /* iPhone 6 Plus (вертикальная и горизонтальная) ----------- */
@@ -2099,12 +2116,21 @@ a.button:hover {
 /*	margin-right: 4px; */
     }
 }
+/* ------------------------------ Side panel for Operator & Users ------------------------------ */
+
+.side-panel--user.shift-bottom {
+    top: 317px;    
+}
 
 /* iPhone 6 (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 375px) and (max-width: 667px) {
 /* стили */
     .i-am-tablet {display: block;}
     .i-am-desktop {display: none;}
+}
+
+.side-panel--user.shift-bottom {
+    top: 317px;    
 }
 
 /* iPhone 5 (вертикальная и горизонтальная) ----------- */
@@ -2114,17 +2140,29 @@ a.button:hover {
     .i-am-desktop {display: none;}
 }
 
+.side-panel--user.shift-bottom {
+    top: 355px;    
+}
+
 /* Nexus 6P (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 412px) and (max-width: 732px) {
 /* стили */
     .i-am-tablet {display: block;}
     .i-am-desktop {display: none;}
 }
+
+.side-panel--user.shift-bottom {
+    top: 317px;    
+}
 /* Galaxy S5 (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 360px) and (max-width: 640px) {
 /* стили */
     .i-am-tablet {display: block;}
     .i-am-desktop {display: none;}
+}
+
+.side-panel--user.shift-bottom {
+    top: 347px;    
 }
 
 
