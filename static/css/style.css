@@ -1898,9 +1898,6 @@ a.button:hover {
 	font-size: 17px;
     }
 }
-
-/* ------------------------------ Side panel for Operator & Users ------------------------------ */
-
 .side-panel--user.shift-bottom {
     top: 223px;    
 }
@@ -1972,8 +1969,6 @@ a.button:hover {
 	margin-left: 20px;
     }
 }
-/* ------------------------------ Side panel for Operator & Users ------------------------------ */
-
 .side-panel--user.shift-bottom {
     top: 233px;    
 }
@@ -2051,7 +2046,6 @@ a.button:hover {
 	margin-right: 290px;
     }
 }
-/* ------------------------------ Side panel for Operator & Users ------------------------------ */
 
 .side-panel--user.shift-bottom {
     top: 197px;    
