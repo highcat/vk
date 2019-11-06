@@ -2227,7 +2227,9 @@ a.button:hover {
     }
 }
 
-
+.side-panel--user.shift-bottom {
+    top: 197px;    
+}
 
 /* ---------------------------- ПЛАНШЕТЫ  ---------------------------- */	
 
@@ -2278,6 +2280,10 @@ a.button:hover {
         width: auto;
         margin: 0;
     }
+
+.side-panel--user.shift-bottom {
+    top: 197px;    
+}
 	
     /* --------------- меню ----------------- */
     /* на планшете - всегда видно */
