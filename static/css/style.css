@@ -1558,7 +1558,7 @@ div.item-block .item-admin-marks
     background-color: yellow;
 }
 .side-panel--user.shift-bottom {
-    top: 197px;    
+    top: 285px;    
 }
 .side-panel--manager {
 }
@@ -1898,10 +1898,6 @@ a.button:hover {
 	font-size: 17px;
     }
 }
-.side-panel--user.shift-bottom {
-    top: 223px;    
-}
-
 
 
 /* iPads (вертикальная) ----------- */
@@ -1968,9 +1964,6 @@ a.button:hover {
     .item-img {
 	margin-left: 20px;
     }
-}
-.side-panel--user.shift-bottom {
-    top: 233px;    
 }
 
 /* iPads (горизонтальная) ----------- */
@@ -2047,9 +2040,6 @@ a.button:hover {
     }
 }
 
-.side-panel--user.shift-bottom {
-    top: 197px;    
-}
 
 
 /* iPhone 6 Plus (вертикальная и горизонтальная) ----------- */
@@ -2110,11 +2100,7 @@ a.button:hover {
 /*	margin-right: 4px; */
     }
 }
-/* ------------------------------ Side panel for Operator & Users ------------------------------ */
 
-.side-panel--user.shift-bottom {
-    top: 317px;    
-}
 
 /* iPhone 6 (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 375px) and (max-width: 667px) {
@@ -2123,9 +2109,6 @@ a.button:hover {
     .i-am-desktop {display: none;}
 }
 
-.side-panel--user.shift-bottom {
-    top: 317px;    
-}
 
 /* iPhone 5 (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 320px) and (max-width: 568px) {
@@ -2134,9 +2117,6 @@ a.button:hover {
     .i-am-desktop {display: none;}
 }
 
-.side-panel--user.shift-bottom {
-    top: 355px;    
-}
 
 /* Nexus 6P (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 412px) and (max-width: 732px) {
@@ -2145,9 +2125,6 @@ a.button:hover {
     .i-am-desktop {display: none;}
 }
 
-.side-panel--user.shift-bottom {
-    top: 317px;    
-}
 /* Galaxy S5 (вертикальная и горизонтальная) ----------- */
 @media only screen and (min-width: 360px) and (max-width: 640px) {
 /* стили */
@@ -2155,9 +2132,6 @@ a.button:hover {
     .i-am-desktop {display: none;}
 }
 
-.side-panel--user.shift-bottom {
-    top: 347px;    
-}
 
 
 
@@ -2221,10 +2195,6 @@ a.button:hover {
     }
 }
 
-.side-panel--user.shift-bottom {
-    top: 223px;    
-}
-
 /* ---------------------------- ПЛАНШЕТЫ  ---------------------------- */	
 
 	
@@ -2275,9 +2245,6 @@ a.button:hover {
         margin: 0;
     }
 
-.side-panel--user.shift-bottom {
-    top: 197px;    
-}
 	
     /* --------------- меню ----------------- */
     /* на планшете - всегда видно */
