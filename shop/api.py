@@ -390,7 +390,7 @@ def _order_to_retail_crm(order):
 
     # Finally - Send Order!
     order_payload = {
-        'contragent': 'individual',
+        'contragent': {"contragentType": 'individual'},
         'orderType': 'eshop-individual',
         'orderMethod': 'phone' if order.data['op_phone_order'] else 'shopping-cart',
         'status': 'client-confirmed' if order.data['status_confirmed'] else 'new',
