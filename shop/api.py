@@ -413,10 +413,9 @@ def _order_to_retail_crm(order):
     }
 
     if order.data['discounts']['fixed']:
-        order_payload['discount'] = order.data['discounts']['fixed']
+        order_payload['discountManualAmount'] = order.data['discounts']['fixed']
     if order.data['discounts']['variable']:
-        order_payload['discountPercent'] = order.data['discounts']['variable']
-
+        order_payload['discountManualPercent'] = order.data['discounts']['variable']
 
     if order.data.get('delivery').startswith('selfdelivery--'):
         store = Store.objects.get(retailcrm_slug=order.data['delivery'][len('selfdelivery--'):])
@@ -429,7 +428,6 @@ def _order_to_retail_crm(order):
         order_payload['delivery']['code'] = 'some-delivery'
         order_payload['delivery']['address'] = {'text': order.data['contact_address']}
         # order_payload['delivery']['cost'] = ...
-
 
     ua_items = []
     for i in items:
