@@ -4,7 +4,7 @@ local:
 
 prod:
   hosts:
-    - 139.162.166.28
+    - vkusnyan.ru
   user: vkusnyan
   git_branch: master
   db_name: vkusnyan
