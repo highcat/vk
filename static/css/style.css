@@ -750,7 +750,9 @@ a.cart-button:hover {
 .cart .cart-promo-code input::-webkit-input-placeholder {
     color: #aaa;
 }
-.cart .cart-item {}
+.cart .cart-item {
+border-bottom: 1px solid;
+}
 .cart .cart-item-name {
   float: left;
   line-height: 28px;
