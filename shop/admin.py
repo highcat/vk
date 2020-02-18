@@ -116,7 +116,8 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'retailcrm_link',
         # 
         'short_name',
-        'preview',
+        'image_original',
+        'image_compressed',
         # 
         'preorder',
         'best_before_1',
@@ -149,6 +150,7 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'is_product_kit',
     )
     readonly_fields = (
+        'image_compressed',
         'retailcrm_link',
         'retailcrm_id',
         'short_name', # берётся из CRM

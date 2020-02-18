@@ -34,7 +34,9 @@ class Product(models.Model):
 
     info2 = models.CharField(max_length=300, blank=True, verbose_name=u"Инфо 2")
     slug = models.CharField(max_length=40, blank=True)
-    preview = models.ImageField(upload_to="product-previews")
+    image_original = models.ImageField(upload_to="product-previews")
+    image_compressed = models.ImageField(upload_to="product-previews-compressed", blank=True, help_text="Сжимается автоматически на сервере")
+
     price = models.IntegerField(default=0)
     discount_price = models.IntegerField(null=True, blank=True)
 
