@@ -28,6 +28,9 @@ jsmin
 cssutils
 requests
 
+# Convert images via TinyURL service
+tinify
+# Telegram
 telepot
 # Emailing fuctionality tested with different clients (Outlook, Gmail, etc)
 -e git+https://github.com/highcat/emailer.git#egg=emailer

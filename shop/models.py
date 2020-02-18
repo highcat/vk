@@ -8,6 +8,7 @@ from django.contrib.sites.models import Site
 from django.contrib.postgres.fields import JSONField
 from sortedm2m.fields import SortedManyToManyField
 from transliterate import translit
+import image_compression
 
 
 class Product(models.Model):
@@ -36,6 +37,10 @@ class Product(models.Model):
     slug = models.CharField(max_length=40, blank=True)
     image_original = models.ImageField(upload_to="product-previews")
     image_compressed = models.ImageField(upload_to="product-previews-compressed", blank=True, help_text="Сжимается автоматически на сервере")
+    image_compressed_with_tinypng = models.BooleanField(
+        default=False,
+        help_text="Означает, что картинка сконвертирована через TinyPNG, т.е. лучшего качества. Если TinyPNG был недоступен, конверсию делал наш сервер."
+    )
 
     price = models.IntegerField(default=0)
     discount_price = models.IntegerField(null=True, blank=True)
@@ -53,6 +58,7 @@ class Product(models.Model):
     page_keywords = models.TextField(verbose_name=u"Мета-тег keywords на странице", blank=True)
 
     description_html = models.TextField(blank=True)
+
     class Meta:
         verbose_name = u'Товар'
         verbose_name_plural = u'Товары'
@@ -63,12 +69,16 @@ class Product(models.Model):
         # update is_market_test
         if self.is_product_kit and self.id:
             self.is_market_test = self.kit_items.filter(product__is_market_test=True).exists()
+        # update cropped image
+        old = None
+        if self.id:
+            old = Product.objects.get(pk=self.id)
+        image_compression.convert_for_product(self, old)
         super(Product, self).save(**kwargs)
-    
+
     def __unicode__(self):
         return u'{} - {}'.format(self.short_name, self.short_info)
 
-    
     def get_count_by_stores(self):
         store_dict = dict((s.retailcrm_slug, {'count': 0, 'store': s}) for s in Store.objects.order_by('retailcrm_slug'))
         if not self.is_product_kit:
@@ -82,7 +92,6 @@ class Product(models.Model):
             'total': sum(map(lambda x: x[1]['count'], store_dict.items())),
             'stores': sorted(store_dict.items(), key=lambda x: x[0]),
         }
-
 
 
 class ProductOffer(models.Model):

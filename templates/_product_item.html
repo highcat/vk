@@ -2,8 +2,8 @@
     <div class="item-block-inside">
       <a href="/product/{{ product.id }}/{{ product.slug }}/">
         <div class="item-img {% if not (product.in_stock or product.preorder) %}img-not-in-stock{% endif %}"
-             style="background-image: url({{ product.image_original|version_url|i_resize(202) }});"
-             ></div>
+             style="background-image: url({{ (product.image_compressed or product.image_original)|version_url|i_resize(202) }});"
+        ></div>
         {% if product.is_new %}
           <img src="{{ 'images/new.png'|version_url }}" alt="new" class="new" width="202" height="250"/>
         {% endif %}

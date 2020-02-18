@@ -426,3 +426,6 @@ assert PROFILE == 'PROD' and not DEBUG or PROFILE != 'PROD'
 
 import django
 django.setup()
+
+
+TINYPNG_API_KEY = "***"

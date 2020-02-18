@@ -114,18 +114,19 @@ class ProductAdmin_Base(admin.ModelAdmin):
     fields = (
         # sorted by usage frequency
         'retailcrm_link',
-        # 
+        #
         'short_name',
         'image_original',
         'image_compressed',
-        # 
+        'image_compressed_with_tinypng',
+        #
         'preorder',
         'best_before_1',
         'best_before_2',
         'is_new',
-        # 
+        #
         'article',
-        # 
+        #
         'short_info',
         'info2',
         'hashtags',
@@ -150,12 +151,13 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'is_product_kit',
     )
     readonly_fields = (
-        'image_compressed',
+        'image_compressed',  # создаётся автоматически
+        'image_compressed_with_tinypng',  # создаётся автоматически
         'retailcrm_link',
         'retailcrm_id',
-        'short_name', # берётся из CRM
-        'short_info', # берётся из CRM
-        'info2', # берётся из CRM        
+        'short_name',  # берётся из CRM
+        'short_info',  # берётся из CRM
+        'info2',  # берётся из CRM
         'article',
         'price',
         'discount_price',
@@ -175,11 +177,13 @@ class ProductAdmin_Base(admin.ModelAdmin):
         'discount_price',
         'in_stock',
         'is_new',
+        'tiny_png',
     )
     search_fields = ['short_name', 'short_info', 'info2', 'article']
+
     class Media:
         css = {
-             'all': ('css/admin.css?v=1',)
+            'all': ('css/admin.css?v=1',),
         }
 
     def retailcrm_link(self, instance):
@@ -190,13 +194,16 @@ class ProductAdmin_Base(admin.ModelAdmin):
             instance.retailcrm_id,
         ))
 
+    def tiny_png(self, instance):
+        return mark_safe("YES") if instance.image_compressed_with_tinypng else mark_safe("<span style='background-color: red; color: white'> NO </span>")
+
 
 class ProductAdmin_Normal(ProductAdmin_Base):
     inlines = [
         ProductImageInline,
     ]
 
-    def get_queryset(self, request): # TODO should be get_queryset; deprecated since Django 1.6
+    def get_queryset(self, request):  # TODO should be get_queryset; deprecated since Django 1.6
         return (
             super(ProductAdmin_Normal, self)
             .get_queryset(request)
