@@ -1303,7 +1303,7 @@ a.cart-buy-button_not:hover {
     color: rgba(255,255,255,.8);
     height: 480px;
     width: 290px;
-    /* margin-bottom: 30px; */
+    margin-bottom: 1px; 
     margin-left: -4px;
     /* margin-right: 7px; */
     /* justify-content: space-between; */
@@ -2198,7 +2198,7 @@ a.button:hover {
     }
     #section ul.items li {
 	height: 480px;
-	width: 260px;
+/*	width: 260px;*/
 	margin-bottom: 30px;
 /*	margin-left: 4px; */
 /*	margin-right: 4px; */
