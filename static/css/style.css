@@ -1360,8 +1360,8 @@ div.item-block .item-admin-marks
 }
 #section ul.items li span.price {
     float: right;
-    background: #ffffff;
-    color: #000000;
+    background: #1a1a1a;
+    color: #d1d1d1;
     font-size: 35px;
     line-height: 20px;
     /* margin: 0 0 0 3px; */
@@ -1375,7 +1375,7 @@ div.item-block .item-admin-marks
 #section ul.items li span.price1 {
 	float: right;
 	background: none;
-	color: #000000;
+	color: #d1d1d1;
 	display: inline-block;
 	font-size: 18px;
 	height: 20px;
@@ -1388,8 +1388,8 @@ div.item-block .item-admin-marks
 }
 #section ul.items li span.price2 {
     float: right;
-    background: #ffffff;
-    color: #000000;
+    background: #1a1a1a;
+    color: #d1d1d1;
     font-size: 35px;
     line-height: 20px;
     /* margin: 0 0 0 3px; */
@@ -1401,7 +1401,7 @@ div.item-block .item-admin-marks
 }
 #section ul.items li span.price4 {
 	background: none;
-	color: #000000;
+	color: #d1d1d1;
 	display: inline-block;
 	font-size: 18px;
 	height: 20px;
@@ -1409,7 +1409,7 @@ div.item-block .item-admin-marks
 }
 #section ul.items li span.price5 {
 	background: none;
-	color: #000000;
+	color: #d1d1d1;
 	display: block;
 	font-size: 18px;
 	height: 20px;
