@@ -1,4 +1,5 @@
-html {
+html {    
+	background-color: #1a1a1a;
 }
 body {
 	background: url(../images/bg-body10.jpg) repeat;
@@ -1230,7 +1231,7 @@ a.cart-buy-button_not:hover {
     margin-top: 10px;
 }
 #product-page div.info-buttons a.back {
-	background-color: #f7cd4d;
+	background-color: #ffffff;
 	margin-right: 0;
 	font-size: 17px;
 	font-weight: bold;
@@ -1239,7 +1240,7 @@ a.cart-buy-button_not:hover {
 	width: 140px;
 	padding: 4px 0 4px;
 	text-align: center;
-	box-shadow: inset 0px 0px 0px 1px #665420;
+	box-shadow: inset 0px 0px 0px 1px #d1d1d1;
 	text-decoration: none;
     float: none;
     display: inline-block;
