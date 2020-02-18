@@ -8,12 +8,13 @@ body {
 	font-family: 'Trebuchet MS', sans-serif, Arial, Helvitica;
 }
 #background {
-	background: #FFFFFF url(../images/contents_bk.gif);
+/*	background: #212121 url(../images/contents_bk.gif); */
+	background: #212121;
 	min-height: auto;
-	border-top: 1px solid #ffffff;
+	border-top: 1px solid #212121;
 }
 #page {
- 	background: #FFFFFF; 
+ 	background: #212121; 
 	width: 1204px;
 	margin: 0 auto;
 }
