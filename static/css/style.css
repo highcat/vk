@@ -1609,18 +1609,17 @@ a.button:hover {
  */
 .item-img {
     background-repeat: no-repeat;
-    background-color: #ffffff;
+    background-color: #1a1a1a;
     background-position: center center!important;
     background-size: 202px auto;
     margin-top: 20px;
-    margin-left: 20px;
+    margin-left: 25px;
     margin-right: 0px;
-    width: 220px;
+    width: 240px;
     height: 265px;
-/*    background-repeat: no-repeat; */
-    /* Сама картинка будет вставлена через HTML */
-/*    margin: auto; */
-    border: 1px solid #e4e0d1;
+    /* background-repeat: no-repeat; */
+    /* margin: auto; */
+    border: 1px solid #1a1a1a;
 }
 .item-img--product-page {
     background-size: 252px auto;
