@@ -466,7 +466,7 @@ a.cart-button:hover {
 	height: 30px;
 	text-decoration: none;
 	padding: 0;
-	color: #1e1e1e;
+	color: #d1d1d1;
 }
 #header-network .links {
 	float: right;
@@ -474,14 +474,14 @@ a.cart-button:hover {
 	font-weight: bold;
 	margin: 5px 10px 0px 0px;
 	padding: 0;
-	color: #1e1e1e;
+	color: #d1d1d1;
 }
 #header-network .links2 > a {
 	display: inline-block;
 	height: 30px;
 	text-decoration: none;
 	padding: 0;
-	color: #1e1e1e;
+	color: #d1d1d1;
 }
 #header-network .links2 {
 	float: left;
@@ -489,7 +489,7 @@ a.cart-button:hover {
 	font-weight: bold;
 	margin: 5px 10px 0px 20px;
 	padding: 0;
-	color: #1e1e1e;
+	color: #d1d1d1;
 }
 #header-network .cart-placeholder {
     float: right;
@@ -522,13 +522,13 @@ a.cart-button:hover {
 
 #header-infos {
 	float: right;
-	color: #1e1e1e;
+	color: #d1d1d1;
 	display: inline-block;
 	margin: -3px 10px 0 10px;
 	text-align: right;
 }
 #header-infos  a {
-	color: #1e1e1e;
+	color: #d1d1d1;
 	font-family: Arial;
 	font-size: 23px;
 	line-height: 30px;
