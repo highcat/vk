@@ -1285,6 +1285,7 @@ a.cart-buy-button_not:hover {
 	background: url() repeat-x left bottom;
 	padding: 0 0 20px;
 	position: relative;
+	background-color: #1a1a1a;
 }
 #section ul.items {
 	display: inline-block;
