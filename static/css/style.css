@@ -1247,9 +1247,9 @@ a.cart-buy-button_not:hover {
 }
 
 #product-page div.info-buttons a.back:hover {
-	background-color: #997f2f;
+	background-color: rgba(0, 0, 0, 0.1);
 	color: #d1d1d1;
-	box-shadow: inset 0px 0px 0px 1px #665420;
+	box-shadow: inset 0px 0px 0px 1px #1e1e1e;
 }
 
 
