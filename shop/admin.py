@@ -152,7 +152,6 @@ class ProductAdmin_Base(admin.ModelAdmin):
     )
     readonly_fields = (
         'image_compressed',  # создаётся автоматически
-        'image_compressed_with_tinypng',  # создаётся автоматически
         'retailcrm_link',
         'retailcrm_id',
         'short_name',  # берётся из CRM
