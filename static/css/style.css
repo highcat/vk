@@ -43,7 +43,7 @@ span.hits {
 	left: 30px;
 	font-family: 'Minecraft Rus Regular';
 	color: #99352f;
-    text-shadow: 1px 1px 0 #1e1e1e;
+    text-shadow: 1px 1px 0 #d1d1d1;
     font-size: 22px;
     font-weight: bold;
 }
@@ -53,7 +53,7 @@ span.90e {
 	left: 30px;
 	font-family: 'Minecraft Rus Regular';
 	color: #99352f;
-    text-shadow: 1px 1px 0 #1e1e1e;
+    text-shadow: 1px 1px 0 #d1d1d1;
     font-size: 22px;
     font-weight: bold;
 }
@@ -63,7 +63,7 @@ span.japan {
 	left: 30px;
 	font-family: 'Minecraft Rus Regular';
 	color: #99352f;
-    text-shadow: 1px 1px 0 #1e1e1e;
+    text-shadow: 1px 1px 0 #d1d1d1;
     font-size: 22px;
     font-weight: bold;
 }
@@ -168,7 +168,7 @@ li a.hits:hover {
 .spinner > div {
   width: 18px;
   height: 18px;
-  background-color: #1e1e1e;
+  background-color: #d1d1d1;
   display: inline-block;
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
@@ -203,7 +203,7 @@ li a.hits:hover {
 .cart-button {
     border-width: 1px;
     border-color: #e4e4e4;
-	color: #1e1e1e;
+	color: #d1d1d1;
 	display: block;
 	font-family: 'Times New Roman', Times, serif;
 	height: 88px;
@@ -281,7 +281,7 @@ a.cart-button:hover {
 
 /* общий стиль заголовка: */
 .header {
-    padding-bottom: 35px;
+    padding-bottom: 10px;
     min-height: 140px; /* по размеру картинки */
 }
 .header-fixed {
@@ -409,26 +409,32 @@ a.cart-button:hover {
 	background: url(../images/headers/bg-header.gif) no-repeat center top;
 	min-height: 340px;
 	background-size: 300px auto;
+	background-color: #212121;
 }
 #header01 {
 	background: url(../images/headers/bg-header.png) no-repeat center top;
 	background-size: 300px auto;
+	background-color: #212121;
 }
 #header02 {
 	background: url(../images/headers/bg-header2.png) no-repeat center top;
 	background-size: 300px auto;
+	background-color: #212121;
 }
 #header03 {
 	background: url(../images/headers/bg-header3.png) no-repeat center top;
 	background-size: 300px auto;
+	background-color: #212121;
 }
 #header04 {
 	background: url(../images/headers/bg-header4.png) no-repeat center top;
 	background-size: 300px auto;
+	background-color: #212121;
 }
 #header05 {
 	background: url(../images/headers/bg-header5.png) no-repeat center top;
 	background-size: 300px auto;
+	background-color: #212121;
 }
 
 
@@ -548,7 +554,7 @@ a.cart-button:hover {
 /** \gation **/
 #header-navigation {
 	display: block;
-	background-color: #e4e4e4;
+	background-color: #1a1a1a;
 	list-style-type: none;
 	padding-left: 0px;
 /*	height: 60px; */
@@ -633,7 +639,7 @@ a.cart-button:hover {
 	padding: 0 5px;
 }
 #contents_menu {
-	margin: -25px 0 40px;
+	margin: -10px 0 40px;
 /*	padding: 0 5px; */
     overflow: hidden;
 }
