@@ -751,7 +751,8 @@ a.cart-button:hover {
     color: #aaa;
 }
 .cart .cart-item {
-border-bottom: 1px solid;
+    border-bottom: 1px solid;
+    padding-bottom: 7px;
 }
 .cart .cart-item-name {
   float: left;
