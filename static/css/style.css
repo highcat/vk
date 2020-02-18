@@ -14,7 +14,7 @@ body {
 	border-top: 1px solid #1a1a1a;
 }
 #page {
- 	background: #212121; 
+ 	background: #1a1a1a; 
 	width: 1204px;
 	margin: 0 auto;
 }
@@ -282,7 +282,7 @@ a.cart-button:hover {
 
 /* общий стиль заголовка: */
 .header {
-    padding-bottom: 10px;
+ /*   padding-bottom: 10px;*/
     min-height: 140px; /* по размеру картинки */
 }
 .header-fixed {
@@ -556,7 +556,7 @@ a.cart-button:hover {
 	background-color: #1a1a1a;
 	list-style-type: none;
 	padding-left: 0px;
-/*	height: 60px; */
+	height: 80px; 
 /*	padding: 18px 5px 0px 5px; */
 
     /* хак с равномерными отступами */
