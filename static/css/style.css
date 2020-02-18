@@ -703,8 +703,8 @@ a.cart-button:hover {
     width: 420px;    
     max-width: inherit;
     padding: 12px;
-    border: 2px solid rgba(30, 30, 30, 0.3);
-    background-color: #e4e4e4;
+/*    border: 2px solid rgba(30, 30, 30, 0.3);*/
+    background-color: #1a1a1a;
     overflow-y: auto;
     max-height: calc(100% - 55px);
 }
