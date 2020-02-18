@@ -287,16 +287,14 @@ a.cart-button:hover {
 }
 .header-fixed {
     display: none;
-
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-
-    background-color: #e4e4e4;
-	box-shadow: 1px 2px 10px 0px #d1d1d1;
-    padding: 8px 4px 0;
+    background-color: #212121;
+    /* box-shadow: 1px 2px 10px 0px #212121; */
+    padding: 13px 12px 0;
 }
 .header-fixed.active {
     top: 0;
