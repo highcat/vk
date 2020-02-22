@@ -747,6 +747,7 @@ a.cart-button:hover {
     font-size: 16px;    
     padding: 2px 5px;
     text-align: center;
+	color: #1a1a1a;
 }
 .cart .cart-promo-code input::-webkit-input-placeholder {
     color: #aaa;
