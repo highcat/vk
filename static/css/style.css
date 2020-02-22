@@ -881,7 +881,7 @@ span.disabled-price {
     float: left;
     cursor: pointer;
     font-size: 14px;
-    background-color: #ffffff!important;
+    background-color: #d1d1d1!important;
     border-color: rgba(30, 30, 30, 0.3)!important;
 }
 .cart .cart-purchase-button, .cart .cart-send-order-button {
@@ -1064,14 +1064,14 @@ a.cart-buy-button_not:hover {
 }
 .cart .discount-note {
     padding: 2px 5px;
-    color: blue;
+    color: #940000;
     text-shadow: -1px 1px lightblue;
     text-align: right;
 }
 
 .cart-widget .operator-order-fields {
-    color: white;
-    background-color: grey;
+    color: #1a1a1a;
+    background-color: #d1d1d1;
     font-size: 18px;
     padding: 5px 10px;
     border-radius: 5px;
