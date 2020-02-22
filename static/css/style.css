@@ -848,7 +848,7 @@ span.disabled-price {
 
 
 .cart-widget .form-control {
-	color: #d1d1d1!important;
+	color: #1a1a1a!important;
 }
 
 .cart .cart-item-name {
@@ -1020,7 +1020,8 @@ a.cart-buy-button_not:hover {
     border-radius: 5px;
 }
 .cart .delivery-option--active {
-    background-color: #f8e186;
+    background-color: #d1d1d1;
+    color: #1a1a1a;
 }
 .cart .field-delivery {
     margin-bottom: 0;
