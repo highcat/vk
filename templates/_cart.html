@@ -136,7 +136,7 @@
 
 
     <div class="form-group field-delivery">
-      <% _.each([ /* 'polus-tretyak', */'smarta-red-room'], function(slug){ %>
+      <% _.each(['polus-tretyak', /* 'smarta-red-room' */], function(slug){ %>
       <div class="delivery-option" data-d-type="selfdelivery--<%= slug %>">
         <label class="control-label">
           <input name="delivery" type="radio" value="selfdelivery--<%= slug %>" <% if (order.delivery=='selfdelivery--'+slug){ %>checked<% } %> >
