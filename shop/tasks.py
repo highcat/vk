@@ -11,6 +11,7 @@ import telepot
 from smtplib import SMTPAuthenticationError
 from telepot import exception as telepot_exception
 from . import logistics
+from .emails import send as send_mail
 
 TELEPOT_EXCEPTIONS_TO_SKIP = (
     telepot_exception.BotWasKickedError,
@@ -31,15 +32,33 @@ def sync_order(order_id):
     if not order.email_to_managers:
         try:
             for rcpt in settings.EMAIL_ORDERS_TO:
-                settings.EMAIL_ACCOUNT.send(Email(
+                send_mail(
                     rcpt=rcpt,
                     subject=email_subject,
-                    body=email_body,
-                    mimetype='text/plain',
-                ))
+                    plain_message=email_body,
+                )
                 Order.objects.filter(id=order.id).update(email_to_managers=True)
         except Exception:
-            log.exception("Error sending order to mail")
+            log.exception("Error sending order admins mailbox")
+
+    if not order.email_to_customer:
+        rcpt_client = data.get('contact_email')
+        if not rcpt_client:
+            Order.objects.filter(id=order.id).update(email_to_customer=True)
+        else:
+            try:
+                send_mail(
+                    rcpt=rcpt_client,
+                    subject='Ваш заказ {} на Vkusnyan.ru'.format(order.retailcrm_order_id),
+                    plain_message="""Вы создали заказ номер {order_id}\n\nна сумму {total} рублей.""".format(
+                        order_id=order.retailcrm_order_id,
+                        total=data.get('total_price'),
+                    ),
+                )
+                Order.objects.filter(id=order.id).update(email_to_managers=True)
+                print('sent_mail_to_customer - DONE')
+            except Exception:
+                log.exception("Error sending order client mailbox")
 
     ## sent by telegram bot
     if not order.sent_to_telegram_bot:

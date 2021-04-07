@@ -96,11 +96,11 @@ def clone_db():
             TABLES_TO_EXCLUDE = [
             ]
             if TABLES_TO_EXCLUDE:
-                print 
+                print
                 print "XXX EXCLUDING tables during clone:"
                 print "  (if you want to clone these tables too, change `fabfile.py` script)"
                 print "    {0}".format('\n    '.join(TABLES_TO_EXCLUDE))
-                print 
+                print
                 excl_string = ' '.join(['--exclude-table-data={0}'.format(d) for d in TABLES_TO_EXCLUDE])
             else:
                 excl_string = ''

@@ -37,6 +37,10 @@ class Command(BaseCommand):
             .filter(
                 Q(booked=False) |                
                 Q(email_to_managers=False) |
+                (
+                        Q(email_to_customer=False)
+                        & Q(id__gt=3411)  # new feature introduced
+                ) |
                 Q(sent_to_telegram_bot=False) |                
                 # Q(email_to_customer=False) |
                 Q(sent_to_retailcrm=False)

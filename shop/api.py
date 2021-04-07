@@ -38,7 +38,7 @@ class OrderForm(forms.Form):
     promo_code = forms.CharField(max_length=100, required=False)
     contact_name = forms.CharField(max_length=100, required=False)
     contact_phone = forms.CharField(max_length=100)
-    contact_email = forms.EmailField(required=False)
+    contact_email = forms.EmailField(max_length=100, required=True)
     contact_address = forms.CharField(max_length=500, required=False)
     delivery = forms.CharField(max_length=100)
 
@@ -126,6 +126,8 @@ def order_complete(request):
     # Run post-processing task
     tasks.sync_order.delay(order.id)
     tasks.book_order.delay(order.id)
+    # # Debug:
+    # tasks.sync_order(order.id)
 
     data['order_sent'] = True
     # needed for Universal Analytics / Yandex Metrika

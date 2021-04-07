@@ -218,6 +218,7 @@ class Order(models.Model):
     booked = models.BooleanField(default=False)
     
     email_to_managers = models.BooleanField(default=False)
+    email_to_customer = models.BooleanField(default=False)
     sent_to_telegram_bot = models.BooleanField(default=False)
     sent_to_retailcrm = models.BooleanField(default=False)
     retailcrm_order_id = models.IntegerField(null=True)
