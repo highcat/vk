@@ -41,7 +41,7 @@ def sync_order(order_id):
         except Exception:
             log.exception("Error sending order admins mailbox")
 
-    if not order.email_to_customer:
+    if not order.email_to_customer and order.id > 3411:
         rcpt_client = data.get('contact_email')
         if not rcpt_client:
             Order.objects.filter(id=order.id).update(email_to_customer=True)
