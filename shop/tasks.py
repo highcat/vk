@@ -55,7 +55,7 @@ def sync_order(order_id):
                         total=data.get('total_price'),
                     ),
                 )
-                Order.objects.filter(id=order.id).update(email_to_managers=True)
+                Order.objects.filter(id=order.id).update(email_to_customer=True)
                 print('sent_mail_to_customer - DONE')
             except Exception:
                 log.exception("Error sending order client mailbox")

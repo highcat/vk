@@ -353,9 +353,9 @@ admin.site.register(FlatPage, FlatPageCustomizedAdmin)
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'email_to_managers', 'sent_to_retailcrm', 'retailcrm_order_id', 'sent_to_telegram_bot')
+    list_display = ('created_at', 'email_to_customer', 'email_to_managers', 'sent_to_retailcrm', 'retailcrm_order_id', 'sent_to_telegram_bot')
     date_hierarchy = 'created_at'
-    readonly_fields = ('data', 'email_to_managers', 'sent_to_telegram_bot', 'sent_to_retailcrm', 'retailcrm_order_id')
+    readonly_fields = ('data', 'email_to_customer', 'email_to_managers', 'sent_to_telegram_bot', 'sent_to_retailcrm', 'retailcrm_order_id')
 
 admin.site.register(Order, OrderAdmin)
 
